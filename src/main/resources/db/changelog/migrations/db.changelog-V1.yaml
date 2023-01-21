@@ -1,0 +1,127 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_groups_table
+      author: Mykolas
+      comment: Creating 'groups' table to store USER and ADMIN groups for authorization purposes.
+      changes:
+        - createTable:
+            tableName: groups
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+              - column:
+                  name: name
+                  type: varchar(50)
+        - addPrimaryKey:
+            columnNames: id
+            tableName: groups
+
+  - changeSet:
+      id: create_group_authorities_table
+      author: Mykolas
+      comment: Creating 'group_authorities' table to hold information about authorities of USER and ADMIN groups.
+      changes:
+        - createTable:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+              - column:
+                  name: group_id
+                  type: int
+              - column:
+                  name: authority
+                  type: varchar(30)
+        - addPrimaryKey:
+            columnNames: id
+            tableName: group_authorities
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: group_authorities
+            constraintName: group_id_fk
+            referencedColumnNames: id
+            referencedTableName: groups
+
+  - changeSet:
+      id: create_users_table
+      author: Mykolas
+      comment: Creating 'users' table to hold all the existing users.
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+              - column:
+                  name: email
+                  type: varchar(60)
+              - column:
+                  name: name
+                  type: varchar(40)
+              - column:
+                  name: password
+                  type: varchar(40)
+              - column:
+                  name: token
+                  type: varchar(70)
+              - column:
+                  name: group_id
+                  type: int
+        - addPrimaryKey:
+            columnNames: id
+            tableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: users
+            constraintName: group_id_users_fk
+            referencedTableName: groups
+            referencedColumnNames: id
+
+  - changeSet:
+      id: create_messages_table
+      author: Mykolas
+      comment: Creating 'messages' table that holds all the created messages.
+      changes:
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+              - column:
+                  name: author_id
+                  type: int
+              - column:
+                  name: time
+                  type: timestamp
+              - column:
+                  name: length
+                  type: int
+              - column:
+                  name: content
+                  type: varchar(400)
+              - column:
+                  name: receiver_id
+                  type: int
+        - addPrimaryKey:
+            columnNames: id
+            tableName: messages
+        - addForeignKeyConstraint:
+            baseTableName: messages
+            baseColumnNames: author_id
+            constraintName: author_id_fk
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: messages
+            baseColumnNames: receiver_id
+            constraintName: receiver_id_fk
+            referencedTableName: users
+            referencedColumnNames: id
