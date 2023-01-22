@@ -125,3 +125,39 @@ databaseChangeLog:
             constraintName: receiver_id_fk
             referencedTableName: users
             referencedColumnNames: id
+
+  - changeSet:
+      id: add_mock_data_to_db
+      author: Mykolas
+      comment: Adding mock data to the tables of database.
+      changes:
+        - insert:
+            tableName: groups
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_USER
+        - insert:
+            tableName: groups
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: vardenis@gmail.com
+              - column:
+                  name: name
+                  value: Vardenis
+              - column:
+                  name: password
+                  value: slaptazodis
+              - column:
+                  name: token
+                  value: 5j5y2158j42n68g11j7kk
+              - column:
+                  name: group_id
+                  value: 1
