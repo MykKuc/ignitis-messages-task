@@ -197,3 +197,21 @@ databaseChangeLog:
               - column:
                   name: receiver_id
                   value: 2
+        - insert:
+            tableName: messages
+            columns:
+              - column:
+                  name: author_id
+                  value: 2
+              - column:
+                  name: time
+                  value: '2021-06-26'
+              - column:
+                  name: length
+                  value: 200
+              - column:
+                  name: content
+                  value: Here is another message being sent out.
+              - column:
+                  name: receiver_id
+                  value: 2

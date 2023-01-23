@@ -30,8 +30,15 @@ public class StatisticsService {
         for(User user:listOfAllUsers){
 
             Statistic userStatistic = new Statistic();
+
             userStatistic.setUserId(user.getId());
             userStatistic.setUserEmail(user.getEmail());
+
+            userStatistic.setTotalMessages(messageRepository.countAllByAuthorId(user.getId()));
+
+            userStatistic.setFirstMessage(messageRepository.findByEarliestMeesageTime(user.getId()));
+
+            userStatistic.setLastMessage(messageRepository.findLastMessageDate(user.getId()));
 
             allUserStatisticsArray.add(userStatistic);
         }
