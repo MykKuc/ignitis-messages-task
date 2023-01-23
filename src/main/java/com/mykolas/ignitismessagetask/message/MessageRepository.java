@@ -17,4 +17,7 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
     @Query(value = "SELECT MAX(time) FROM messages WHERE author_id = ?1", nativeQuery = true)
     LocalDateTime findLastMessageDate(Long userId);
+
+    @Query(value = "SELECT AVG(length) FROM messages WHERE author_id = ?1", nativeQuery = true)
+    Double findAverageMessageLength(Long userId);
 }

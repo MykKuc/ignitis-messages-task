@@ -6,12 +6,7 @@ import com.mykolas.ignitismessagetask.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,11 +41,15 @@ public class MessageService {
 
         LocalDateTime currentLocalDateTime = LocalDateTime.now();
 
+        int lengthOfTheMessage = newMessageRequest.getContent().length();
+        Long convertedLengthOfMessageToLong = (long) lengthOfTheMessage;
+
         Message message = Message.builder()
                 .authorId(newMessageRequest.getAuthorId())
                 .time(currentLocalDateTime)
                 .content(newMessageRequest.getContent())
                 .receiverId(newMessageRequest.getReceiverId())
+                .length(convertedLengthOfMessageToLong)
                 .build();
 
         messageRepository.save(message);
