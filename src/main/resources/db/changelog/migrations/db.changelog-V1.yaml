@@ -161,3 +161,39 @@ databaseChangeLog:
               - column:
                   name: group_id
                   value: 1
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: person@gmail.com
+              - column:
+                  name: name
+                  value: VardenisPavardenis
+              - column:
+                  name: password
+                  value: slaptazodis
+              - column:
+                  name: token
+                  value: 5j5y2158j42n68g11j7kk4
+              - column:
+                  name: group_id
+                  value: 1
+        - insert:
+            tableName: messages
+            columns:
+              - column:
+                  name: author_id
+                  value: 1
+              - column:
+                  name: time
+                  value: '2019-06-26'
+              - column:
+                  name: length
+                  value: 200
+              - column:
+                  name: content
+                  value: Trying out sending a message over here.
+              - column:
+                  name: receiver_id
+                  value: 2
