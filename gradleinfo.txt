@@ -1,0 +1,135 @@
+/*
+
+
+task ('generatedbclasses') {
+	doLast {
+		def writer = new StringWriter()
+		def xml = new MarkupBuilder(writer)
+				.configuration('xmlns': 'https://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd') {
+					jdbc() {
+						driver ( 'org.h2.Driver')
+						url ( 'jdbc:h2:mem:maindb')
+						user('dbadmin')
+						password('dbadmin')
+					}
+					generator() {
+						database() {
+						}
+						generate() {
+						}
+						target() {
+							packageName('com.mykolas.ignitismessagetask.database')
+							directory('src/main/java')
+						}
+					}
+				}
+
+		GenerationTool.generate(writer.toString());
+	}
+}
+
+
+// Generate task.
+
+ext.db = [
+		url: 'jdbc:h2:mem:maindb',
+		user: 'dbadmin',
+		password: 'dbadmin',
+		driver: 'org.h2.Driver',
+		packageName: 'com.mykolas.ignitismessagetask.database'
+]
+
+ext.genpath = new java.io.File("${projectDir}/build/generated/source/jooq/main")
+
+sourceSets.main.java.srcDirs += genpath.toString()
+
+task generateCode() {
+	if (!genpath.exists()) {
+		genpath.mkdirs()
+	}
+
+	org.jooq.meta.jaxb.Configuration configuration = new org.jooq.meta.jaxb.Configuration()
+			.withJdbc(new Jdbc()
+					.withDriver('org.h2.Driver')
+					.withUrl('jdbc:h2:~/maindb')
+					.withUser('dbadmin')
+					.withPassword('dbadmin')
+			)
+			.withGenerator(new Generator()
+					.withDatabase(new Database()
+							.withIncludes(".*")
+							.withExcludes("")
+					)
+					.withTarget(new Target()
+							.withPackageName('com.mykolas.ignitismessagetask.database')
+							.withDirectory('src/main/java')
+					)
+			);
+
+	GenerationTool.generate(configuration);
+
+}
+
+task deleteGeneratedCode(type: org.gradle.api.tasks.Delete) {
+	delete genpath
+}
+
+jooq {
+	version = dependencyManagement.importedProperties['jooq.version']  // the default (can be omitted)
+	edition = nu.studer.gradle.jooq.JooqEdition.OSS  // the default (can be omitted)
+
+	configurations {
+		main {  // name of the jOOQ configuration
+			generationTool {
+				jdbc = null
+				generator {
+					database {
+						name = 'org.jooq.meta.extensions.liquibase.LiquibaseDatabase'
+						properties {
+							property {
+								key = 'scripts'
+								value = 'src/main/resources/db/changelog/db.changelog-master.yaml'
+							}
+							property {
+								key = 'includeLiquibaseTables'
+								value = 'false'
+							}
+						}
+					}
+					generate {
+						deprecated = false
+						records = true
+						immutablePojos = false
+						fluentSetters = true
+					}
+					target {
+						packageName = 'com.mykolas.ignitismessagetask.database'
+					}
+				}
+			}
+		}
+	}
+}
+
+myConfigurationName(sourceSets.main) {
+	generator {
+		database {
+			name = 'org.jooq.meta.extensions.liquibase.LiquibaseDatabase'
+			properties {
+
+				// Specify the root path, e.g. a path in your Maven directory layout
+				property {
+					key = 'rootPath'
+					value = '${basedir}/src/main/resources'
+				}
+
+				// Specify the relative path location of your XML, YAML, or JSON script.
+				property {
+					key = 'scripts'
+					value = 'database.xml'
+				}
+			}
+		}
+	}
+}
+*/
