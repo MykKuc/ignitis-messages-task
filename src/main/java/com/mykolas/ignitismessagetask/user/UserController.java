@@ -25,10 +25,15 @@ public class UserController {
     }
 
 
-    // POST new user. Change to RequestUser POJO.
+    // POST new user. Change to RequestUser POJO. Improve Request User.
     @ResponseStatus(code = HttpStatus.CREATED, reason = "created")
-    @PostMapping("createuser")
+    @PostMapping("create")
     public void createUser(@RequestBody UserAddRequest userAddRequest){
         userService.createUser(userAddRequest);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }

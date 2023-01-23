@@ -22,7 +22,6 @@ public class UserService {
 
     // Create User service. Check if same email does not exist.
     public void createUser(UserAddRequest userAddRequest){
-
         Optional<User> sameUser = userRepository.findByEmail(userAddRequest.getEmail());
         if(sameUser.isPresent()){
             throw new UserAlreadyExistsException(userAddRequest.getEmail());
@@ -35,7 +34,10 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+    }
 
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
 
