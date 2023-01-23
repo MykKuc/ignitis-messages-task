@@ -20,4 +20,7 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
     @Query(value = "SELECT AVG(length) FROM messages WHERE author_id = ?1", nativeQuery = true)
     Double findAverageMessageLength(Long userId);
+
+    @Query(value = "SELECT content FROM messages WHERE author_id = ?1 AND time = ?2", nativeQuery = true)
+    String findMessageContentOfLatestMessage(Long userId, LocalDateTime timeLatestMessage);
 }

@@ -16,7 +16,7 @@ public class Statistic {
 
     private LocalDateTime lastMessage;
 
-    private Integer averageMessageLength;
+    private Double averageMessageLength;
 
     private String lastMessageText;
 
@@ -28,7 +28,7 @@ public class Statistic {
         this.userEmail = userEmail;
     }
 
-    public Statistic(Long userId, String userEmail, Integer totalMessages, LocalDateTime firstMessage, LocalDateTime lastMessage, Integer averageMessageLength, String lastMessageText) {
+    public Statistic(Long userId, String userEmail, Integer totalMessages, LocalDateTime firstMessage, LocalDateTime lastMessage, Double averageMessageLength, String lastMessageText) {
         this.userId = userId;
         this.userEmail = userEmail;
         this.totalMessages = totalMessages;
@@ -73,11 +73,11 @@ public class Statistic {
         this.lastMessage = lastMessage;
     }
 
-    public Integer getAverageMessageLength() {
+    public Double getAverageMessageLength() {
         return averageMessageLength;
     }
 
-    public void setAverageMessageLength(Integer averageMessageLength) {
+    public void setAverageMessageLength(Double averageMessageLength) {
         this.averageMessageLength = averageMessageLength;
     }
 

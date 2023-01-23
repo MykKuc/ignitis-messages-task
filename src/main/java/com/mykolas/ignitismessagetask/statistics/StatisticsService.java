@@ -6,6 +6,7 @@ import com.mykolas.ignitismessagetask.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class StatisticsService {
             userStatistic.setTotalMessages(messageRepository.countAllByAuthorId(user.getId()));
             userStatistic.setFirstMessage(messageRepository.findByEarliestMeesageTime(user.getId()));
             userStatistic.setLastMessage(messageRepository.findLastMessageDate(user.getId()));
+            userStatistic.setAverageMessageLength(messageRepository.findAverageMessageLength(user.getId()));
+
+            LocalDateTime lastMessageTime = messageRepository.findLastMessageDate(user.getId());
+            userStatistic.setLastMessageText(messageRepository.findMessageContentOfLatestMessage(user.getId(),lastMessageTime));
 
             allUserStatisticsArray.add(userStatistic);
         }
