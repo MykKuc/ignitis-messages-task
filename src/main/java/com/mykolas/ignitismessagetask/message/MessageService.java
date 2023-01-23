@@ -44,9 +44,11 @@ public class MessageService {
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
+        LocalDateTime currentLocalDateTime = LocalDateTime.now();
 
         Message message = Message.builder()
                 .authorId(newMessageRequest.getAuthorId())
+                .time(currentLocalDateTime)
                 .content(newMessageRequest.getContent())
                 .receiverId(newMessageRequest.getReceiverId())
                 .build();
