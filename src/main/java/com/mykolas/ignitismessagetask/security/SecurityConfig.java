@@ -45,7 +45,8 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class).anonymous()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login/auth").authenticated()
+                .antMatchers("/login/auth").hasRole("ADMIN")
+                .antMatchers("/test").hasRole("USER")
                 .antMatchers("/*").permitAll();
 
         return http.build();

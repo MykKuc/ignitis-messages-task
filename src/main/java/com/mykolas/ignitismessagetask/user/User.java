@@ -24,16 +24,28 @@ public class User {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "role")
+    private String role;
+
 
     public User() {
     }
 
-    public User(long id, String email, String name, String password, String token) {
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public User(long id, String email, String name, String password, String token, String role) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.token = token;
+        this.role = role;
     }
 
     public long getId() {

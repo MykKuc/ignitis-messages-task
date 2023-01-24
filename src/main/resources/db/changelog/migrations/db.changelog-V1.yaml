@@ -93,9 +93,6 @@ databaseChangeLog:
                   name: password
                   value: slaptazodis
               - column:
-                  name: token
-                  value: 5j5y2158j42n68g11j7kk
-              - column:
                   name: role
                   value: ROLE_ADMIN
         - insert:
@@ -111,11 +108,8 @@ databaseChangeLog:
                   name: password
                   value: slaptazodis
               - column:
-                  name: token
-                  value: 5j5y2158j42n68g11j7kk4
-              - column:
                   name: role
-                  value: ROLE_ADMIN
+                  value: ROLE_USER
         - insert:
             tableName: messages
             columns:

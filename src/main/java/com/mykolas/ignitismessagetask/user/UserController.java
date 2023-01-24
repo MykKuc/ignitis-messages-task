@@ -10,13 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
@@ -62,11 +66,18 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
 
+        Optional<User> currentUser = userRepository.findByEmail(loginRequest.getEmail());
+        String roleOfAuthenticatedUser = currentUser.get().getRole();
+        ArrayList<String> collectionOfRoles = new ArrayList<>();
+        collectionOfRoles.add(roleOfAuthenticatedUser);
+
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                        loginRequest.getPassword(),
+                        collectionOfRoles.stream().map(authority -> (GrantedAuthority) () -> authority)
+                                .collect(Collectors.toList())
                 ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtMaker.generateToken(authentication);
