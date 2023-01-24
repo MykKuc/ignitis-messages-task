@@ -39,6 +39,10 @@ public class MessageService {
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
+        if (newMessageRequest.getAuthorId() == newMessageRequest.getReceiverId()){
+            throw new MessageAuthorAndReceiverSameException();
+        }
+
         LocalDateTime currentLocalDateTime = LocalDateTime.now();
 
         int lengthOfTheMessage = newMessageRequest.getContent().length();
