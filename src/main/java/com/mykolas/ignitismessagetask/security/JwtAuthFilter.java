@@ -4,6 +4,8 @@ import com.mykolas.ignitismessagetask.user.User;
 import com.mykolas.ignitismessagetask.user.UserRepository;
 import liquibase.util.StringUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,8 +19,8 @@ import java.util.Optional;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JwtMaker jwtTokenMaker;
-    private UserRepository userRepository;
+    private final JwtMaker jwtTokenMaker;
+    private final UserRepository userRepository;
 
     public JwtAuthFilter(JwtMaker  jwtTokenMaker, UserRepository userRepository){
         this.jwtTokenMaker = jwtTokenMaker;
@@ -34,26 +36,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 if(user.isEmpty()){
                     throw new UnavailableException("User does not exist.");
                 }
-
-                /*
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        user.get(),null, user.get().ge
-                )
-                */
-
-
+                            // Add authorities here.
+                                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        user.get(),null);
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-
-
+            filterChain.doFilter(request, response);
     }
 
     //++
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
-
         return null;
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -25,7 +24,7 @@ public class JwtMaker {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, SecurityConstraints.JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS256, SecurityConstraints.JWT_SECRET)
                 .compact();
     }
 
@@ -40,7 +39,7 @@ public class JwtMaker {
         return claims.getSubject();
     }
 
-    //++
+    //++ Rename this method isTokenValid()
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(SecurityConstraints.JWT_SECRET).build().parseClaimsJwt(token);

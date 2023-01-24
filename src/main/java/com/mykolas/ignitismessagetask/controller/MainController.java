@@ -10,4 +10,9 @@ public class MainController {
     public String getText() {
         return "Testing if this works.";
     }
+
+    @GetMapping("/login/auth")
+    public String getTextIfLoggedIn() {
+        return "Authentication is working.";
+    }
 }

@@ -1,5 +1,6 @@
 package com.mykolas.ignitismessagetask.user;
 
+import com.mykolas.ignitismessagetask.security.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mykolas.ignitismessagetask.user.User;
@@ -38,6 +39,28 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    // Method to store JWT.
+    //++
+    public void storeJwt(String email, String token) throws Exception{
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isEmpty()){
+            throw new UnauthorizedException("User does not exist. ");
+        }
+
+        User user = userOptional.get();
+        user.setToken(token);
+        userRepository.save(user);
+    }
+
+    public void deleteToken(Optional<User> user){
+        if(user == null || user.get().getToken() == null){
+            throw new UnauthorizedException("You are not logged in.");
+        }
+
+        user.get().setToken(null);
+        userRepository.save(user.get());
     }
 
 
