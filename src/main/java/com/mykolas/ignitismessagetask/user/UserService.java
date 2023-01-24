@@ -3,14 +3,13 @@ package com.mykolas.ignitismessagetask.user;
 import com.mykolas.ignitismessagetask.security.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mykolas.ignitismessagetask.user.User;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository){
@@ -55,7 +54,7 @@ public class UserService {
     }
 
     public void deleteToken(Optional<User> user){
-        if(user == null || user.get().getToken() == null){
+        if( user.get().getToken() == null){
             throw new UnauthorizedException("You are not logged in.");
         }
 

@@ -1,52 +1,5 @@
 databaseChangeLog:
   - changeSet:
-      id: create_groups_table
-      author: Mykolas
-      comment: Creating 'groups' table to store USER and ADMIN groups for authorization purposes.
-      changes:
-        - createTable:
-            tableName: groups
-            columns:
-              - column:
-                  name: id
-                  type: int
-                  autoIncrement: true
-              - column:
-                  name: name
-                  type: varchar(50)
-        - addPrimaryKey:
-            columnNames: id
-            tableName: groups
-
-  - changeSet:
-      id: create_group_authorities_table
-      author: Mykolas
-      comment: Creating 'group_authorities' table to hold information about authorities of USER and ADMIN groups.
-      changes:
-        - createTable:
-            tableName: group_authorities
-            columns:
-              - column:
-                  name: id
-                  type: int
-                  autoIncrement: true
-              - column:
-                  name: group_id
-                  type: int
-              - column:
-                  name: authority
-                  type: varchar(30)
-        - addPrimaryKey:
-            columnNames: id
-            tableName: group_authorities
-        - addForeignKeyConstraint:
-            baseColumnNames: group_id
-            baseTableName: group_authorities
-            constraintName: group_id_fk
-            referencedColumnNames: id
-            referencedTableName: groups
-
-  - changeSet:
       id: create_users_table
       author: Mykolas
       comment: Creating 'users' table to hold all the existing users.
@@ -71,17 +24,13 @@ databaseChangeLog:
                   name: token
                   type: varchar(250)
               - column:
-                  name: group_id
-                  type: int
+                  name: role
+                  type: varchar(30)
         - addPrimaryKey:
             columnNames: id
             tableName: users
-        - addForeignKeyConstraint:
-            baseColumnNames: group_id
-            baseTableName: users
-            constraintName: group_id_users_fk
-            referencedTableName: groups
-            referencedColumnNames: id
+        - sql:
+            sql: ALTER TABLE users ADD CONSTRAINT allow_only_admin_or_user CHECK (role IN ('ROLE_ADMIN','ROLE_USER'))
 
   - changeSet:
       id: create_messages_table
@@ -132,18 +81,6 @@ databaseChangeLog:
       comment: Adding mock data to the tables of database.
       changes:
         - insert:
-            tableName: groups
-            columns:
-              - column:
-                  name: name
-                  value: ROLE_USER
-        - insert:
-            tableName: groups
-            columns:
-              - column:
-                  name: name
-                  value: ROLE_ADMIN
-        - insert:
             tableName: users
             columns:
               - column:
@@ -159,8 +96,8 @@ databaseChangeLog:
                   name: token
                   value: 5j5y2158j42n68g11j7kk
               - column:
-                  name: group_id
-                  value: 1
+                  name: role
+                  value: ROLE_ADMIN
         - insert:
             tableName: users
             columns:
@@ -177,8 +114,8 @@ databaseChangeLog:
                   name: token
                   value: 5j5y2158j42n68g11j7kk4
               - column:
-                  name: group_id
-                  value: 1
+                  name: role
+                  value: ROLE_ADMIN
         - insert:
             tableName: messages
             columns:
