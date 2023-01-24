@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,7 @@ public class UserController {
     // POST new user. Change to RequestUser POJO. Improve Request User.
     @ResponseStatus(code = HttpStatus.CREATED, reason = "created")
     @PostMapping("create")
-    public void createUser(@RequestBody UserAddRequest userAddRequest){
+    public void createUser(@RequestBody @Valid UserAddRequest userAddRequest){
         userService.createUser(userAddRequest);
     }
 

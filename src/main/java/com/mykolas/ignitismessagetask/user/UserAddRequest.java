@@ -1,11 +1,24 @@
 package com.mykolas.ignitismessagetask.user;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class UserAddRequest {
 
+    @NotBlank(message = "Name must not be null or blank.")
+    @Length(min = 1, max = 40, message = "Incorrect length of new user name.")
     private String name;
 
+    @NotBlank(message = "Email field can not be null or blank.")
+    @Length(min = 1,max = 60, message = "Incorrect length of email.")
+    @Email(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$", message = "Incorrect provided email form.")
     private String email;
 
+    @NotBlank(message = "Password can not be null or blank.")
+    @Length(min = 1, max = 40, message = "Incorrect length of password.")
     private String password;
 
     public UserAddRequest(String name, String email, String password) {

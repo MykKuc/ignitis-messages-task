@@ -10,4 +10,5 @@ class IgnitisMessageTaskApplicationTests {
 	void contextLoads() {
 	}
 
+
 }
