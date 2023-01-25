@@ -50,9 +50,6 @@ public class SecurityConfig {
                 .antMatchers("/statistics").hasRole("ADMIN")
                 .antMatchers("/user/delete/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/message").hasRole("USER")
-                // Good up until here.
-                .antMatchers("/login/auth").hasRole("ADMIN")
-                .antMatchers("/test").hasRole("USER")
                 .antMatchers("/*").permitAll();
 
         return http.build();

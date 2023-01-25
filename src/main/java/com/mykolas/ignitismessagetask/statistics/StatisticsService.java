@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public class StatisticsService {
 
-    private MessageRepository messageRepository;
-    private UserRepository userRepository;
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public StatisticsService(MessageRepository messageRepository, UserRepository userRepository){

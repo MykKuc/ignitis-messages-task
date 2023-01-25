@@ -24,14 +24,11 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    // Method to get all the messages.
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
 
 
-
-    // Method to create a new message.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
         Optional<User> presentReceiverOptional = userRepository.findById(newMessageRequest.getReceiverId());

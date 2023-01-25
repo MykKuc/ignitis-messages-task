@@ -2,7 +2,6 @@ package com.mykolas.ignitismessagetask.security;
 
 import com.mykolas.ignitismessagetask.user.User;
 import com.mykolas.ignitismessagetask.user.UserRepository;
-import liquibase.util.StringUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
