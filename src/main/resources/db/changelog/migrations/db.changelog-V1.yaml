@@ -111,6 +111,21 @@ databaseChangeLog:
                   name: role
                   value: ROLE_USER
         - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: email
+                  value: person2@gmail.com
+              - column:
+                  name: name
+                  value: person
+              - column:
+                  name: password
+                  value: secret
+              - column:
+                  name: role
+                  value: ROLE_USER
+        - insert:
             tableName: messages
             columns:
               - column:
