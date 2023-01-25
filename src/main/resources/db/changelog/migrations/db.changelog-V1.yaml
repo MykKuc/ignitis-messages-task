@@ -111,7 +111,7 @@ databaseChangeLog:
                   name: role
                   value: ROLE_USER
         - insert:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: email

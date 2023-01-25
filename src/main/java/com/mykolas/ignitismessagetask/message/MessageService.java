@@ -34,9 +34,15 @@ public class MessageService {
     // Method to create a new message.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
-        Optional<User> presentReceive = userRepository.findById(newMessageRequest.getReceiverId());
-        if(presentReceive.isEmpty()){
+        Optional<User> presentReceiverOptional = userRepository.findById(newMessageRequest.getReceiverId());
+        if(presentReceiverOptional.isEmpty()){
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
+        }
+
+        // Check if receiver is not an ADMIN.
+        String presentReceiverRole = presentReceiverOptional.get().getRole();
+        if(presentReceiverRole.equals("ROLE_ADMIN")){
+            throw new ReceiverIsAdminException();
         }
 
         Authentication currentUserAuthentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,6 +58,7 @@ public class MessageService {
 
         int lengthOfTheMessage = newMessageRequest.getContent().length();
         Long convertedLengthOfMessageToLong = (long) lengthOfTheMessage;
+
 
         Message message = Message.builder()
                 .authorId(currentUserId)
