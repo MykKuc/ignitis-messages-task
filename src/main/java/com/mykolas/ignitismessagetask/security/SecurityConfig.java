@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/create").hasRole("ADMIN")
+                .antMatchers("/statistics").hasRole("ADMIN")
                 // Good up until here.
                 .antMatchers("/login/auth").hasRole("ADMIN")
                 .antMatchers("/test").hasRole("USER")

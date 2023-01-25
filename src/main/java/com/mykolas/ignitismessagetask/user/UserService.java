@@ -2,6 +2,7 @@ package com.mykolas.ignitismessagetask.user;
 
 import com.mykolas.ignitismessagetask.security.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,13 +56,10 @@ public class UserService {
     }
 
     public void deleteToken(User user){
-        if( user.getToken() == null){
-            throw new UnauthorizedException("You are not logged in.");
-        }
 
         user.setToken(null);
+        SecurityContextHolder.clearContext();
         userRepository.save(user);
     }
-
 
 }
