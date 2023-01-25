@@ -9,7 +9,7 @@ import java.util.List;
 @RequestMapping("message")
 public class MessageController {
 
-    private MessageService messageService;
+    private final MessageService messageService;
 
     @Autowired
     public MessageController(MessageService messageService){

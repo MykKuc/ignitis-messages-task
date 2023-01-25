@@ -85,13 +85,13 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: vardenis@gmail.com
+                  value: admin@gmail.com
               - column:
                   name: name
-                  value: Vardenis
+                  value: Admin
               - column:
                   name: password
-                  value: slaptazodis
+                  value: admin
               - column:
                   name: role
                   value: ROLE_ADMIN

@@ -24,6 +24,7 @@ public class Message {
 
     @Column(name = "content")
     private String content;
+
     @Column(name = "receiver_id")
     private Long receiverId;
 
