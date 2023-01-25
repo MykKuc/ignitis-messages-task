@@ -1,6 +1,7 @@
 package com.mykolas.ignitismessagetask.message;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class MessageController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
     }

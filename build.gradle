@@ -1,8 +1,7 @@
 plugins {
-	id 'java'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'groovy'
+	id 'java'
 }
 
 group = 'com.mykolas'
@@ -31,9 +30,6 @@ dependencies {
 	implementation 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-
-	testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
-	testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
