@@ -92,9 +92,10 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String emailOfCurrentUser = auth.getName();
-        Optional<User> currentUser = userRepository.findByEmail(emailOfCurrentUser);
-
+        Optional<User> currentUserOptional = userRepository.findByEmail(emailOfCurrentUser);
+        User currentUser = currentUserOptional.get();
         userService.deleteToken(currentUser);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

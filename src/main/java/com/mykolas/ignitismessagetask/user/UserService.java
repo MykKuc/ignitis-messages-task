@@ -31,6 +31,7 @@ public class UserService {
                 .name(userAddRequest.getName())
                 .email(userAddRequest.getEmail())
                 .password(userAddRequest.getPassword())
+                .role("ROLE_USER")
                 .build();
 
         userRepository.save(user);
@@ -53,13 +54,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteToken(Optional<User> user){
-        if( user.get().getToken() == null){
+    public void deleteToken(User user){
+        if( user.getToken() == null){
             throw new UnauthorizedException("You are not logged in.");
         }
 
-        user.get().setToken(null);
-        userRepository.save(user.get());
+        user.setToken(null);
+        userRepository.save(user);
     }
 
 
