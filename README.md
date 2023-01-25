@@ -17,3 +17,6 @@ POST user/login/ endpoint:
 
 User with ROLE_ADMIN can create other users with ROLE_USER and it can also
 delete the user and get the statistics about all the messages.
+
+Database Relations graph is given below:
+![DB schema](/DBSchema.PNG)
