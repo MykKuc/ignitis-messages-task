@@ -4,6 +4,8 @@ package com.mykolas.ignitismessagetask.message;
 import com.mykolas.ignitismessagetask.user.User;
 import com.mykolas.ignitismessagetask.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,14 +34,17 @@ public class MessageService {
     // Method to create a new message.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
-        // Get author info from logged in information.
-
         Optional<User> presentReceive = userRepository.findById(newMessageRequest.getReceiverId());
         if(presentReceive.isEmpty()){
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
-        if (newMessageRequest.getAuthorId() == newMessageRequest.getReceiverId()){
+        Authentication currentUserAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = currentUserAuthentication.getName();
+        Optional<User> currentUserOptional = userRepository.findByEmail(currentUserEmail);
+        Long currentUserId = currentUserOptional.get().getId();
+
+        if (currentUserId == newMessageRequest.getReceiverId()){
             throw new MessageAuthorAndReceiverSameException();
         }
 
@@ -49,7 +54,7 @@ public class MessageService {
         Long convertedLengthOfMessageToLong = (long) lengthOfTheMessage;
 
         Message message = Message.builder()
-                .authorId(newMessageRequest.getAuthorId())
+                .authorId(currentUserId)
                 .time(currentLocalDateTime)
                 .content(newMessageRequest.getContent())
                 .receiverId(newMessageRequest.getReceiverId())

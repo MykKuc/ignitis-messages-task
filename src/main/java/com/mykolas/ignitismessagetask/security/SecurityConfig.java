@@ -4,6 +4,7 @@ import com.mykolas.ignitismessagetask.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,6 +48,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/user/create").hasRole("ADMIN")
                 .antMatchers("/statistics").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/message").hasRole("USER")
                 // Good up until here.
                 .antMatchers("/login/auth").hasRole("ADMIN")
                 .antMatchers("/test").hasRole("USER")
