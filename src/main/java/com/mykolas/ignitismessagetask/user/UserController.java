@@ -23,22 +23,18 @@ import java.util.stream.Collectors;
 @RequestMapping("user")
 public class UserController {
 
-    // Need POST user , need DELETE user, GET stats.
-
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-
     private final JwtMaker jwtMaker;
 
-    private final UserRepository userRepository;
-
+    private final UserQueries userQueries;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, JwtMaker jwtMaker, UserRepository userRepository){
+    public UserController(UserService userService, AuthenticationManager authenticationManager, JwtMaker jwtMaker, UserQueries userQueries){
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtMaker = jwtMaker;
-        this.userRepository = userRepository;
+        this.userQueries = userQueries;
     }
 
     @GetMapping("getusers")
@@ -46,8 +42,6 @@ public class UserController {
         return userService.getAllUsersService();
     }
 
-
-    // POST new user. Change to RequestUser POJO. Improve Request User.
     @ResponseStatus(code = HttpStatus.CREATED, reason = "created")
     @PostMapping("create")
     public void createUser(@RequestBody @Valid UserAddRequest userAddRequest){
@@ -59,12 +53,12 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    //++
+    // All Good up to here.
     @PostMapping("login")
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
 
-        Optional<User> currentUser = userRepository.findByEmail(loginRequest.getEmail());
-        String roleOfAuthenticatedUser = currentUser.get().getRole();
+        User currentUser = userQueries.fetchUserByEmail(loginRequest.getEmail());
+        String roleOfAuthenticatedUser = currentUser.getRole();
         ArrayList<String> collectionOfRoles = new ArrayList<>();
         collectionOfRoles.add(roleOfAuthenticatedUser);
 
@@ -89,14 +83,12 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String emailOfCurrentUser = auth.getName();
-        Optional<User> currentUserOptional = userRepository.findByEmail(emailOfCurrentUser);
-        User currentUser = currentUserOptional.get();
-        userService.deleteToken(currentUser);
+        userService.deleteTokenAndClearSecurityContext(emailOfCurrentUser);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //++
+    // THis is good.
     @GetMapping("current")
     public String getCurrentUser () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

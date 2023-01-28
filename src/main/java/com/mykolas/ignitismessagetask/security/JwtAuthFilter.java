@@ -1,7 +1,7 @@
 package com.mykolas.ignitismessagetask.security;
 
 import com.mykolas.ignitismessagetask.user.User;
-import com.mykolas.ignitismessagetask.user.UserRepository;
+import com.mykolas.ignitismessagetask.user.UserQueries;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -19,25 +19,28 @@ import java.util.Optional;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtMaker jwtTokenMaker;
-    private final UserRepository userRepository;
+    private final UserQueries userQueries;
 
-    public JwtAuthFilter(JwtMaker  jwtTokenMaker, UserRepository userRepository){
+    public JwtAuthFilter(JwtMaker  jwtTokenMaker, UserQueries userQueries){
         this.jwtTokenMaker = jwtTokenMaker;
-        this.userRepository = userRepository;
+        this.userQueries = userQueries;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
             String token = getJwtFromRequest(request);
+
             if(StringUtils.hasText(token) && jwtTokenMaker.validateToken(token)) {
                 String email = jwtTokenMaker.getUsernameFromJWT(token);
 
-                Optional<User> user = this.userRepository.findByEmail(email);
-                if(user.isEmpty()){
+                User user = userQueries.fetchUserByEmail(email);
+                if(user == null){
                     throw new UnavailableException("User does not exist.");
                 }
                             // Add authorities here.
                                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        user.get(),null);
+                        user,null);
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

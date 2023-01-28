@@ -8,16 +8,11 @@ import java.time.LocalDateTime;
 public class Statistic {
 
     private Long userId;
-
     private String userEmail;
     private Integer totalMessages;
-
     private LocalDateTime firstMessage;
-
     private LocalDateTime lastMessage;
-
     private Double averageMessageLength;
-
     private String lastMessageText;
 
     public String getUserEmail() {

@@ -1,6 +1,6 @@
 package com.mykolas.ignitismessagetask.security;
 
-import com.mykolas.ignitismessagetask.user.UserRepository;
+import com.mykolas.ignitismessagetask.user.UserQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +20,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtMaker jwtMaker;
-    private final UserRepository userRepository;
+    private final UserQueries userQueries;
 
     @Autowired
-    public SecurityConfig(JwtMaker jwtMaker, UserRepository userRepository){
+    public SecurityConfig(JwtMaker jwtMaker, UserQueries userQueries){
         this.jwtMaker = jwtMaker;
-        this.userRepository = userRepository;
+        this.userQueries = userQueries;
     }
 
 
@@ -73,6 +73,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
-        return new JwtAuthFilter(jwtMaker, this.userRepository);
+        return new JwtAuthFilter(jwtMaker, this.userQueries);
     }
 }

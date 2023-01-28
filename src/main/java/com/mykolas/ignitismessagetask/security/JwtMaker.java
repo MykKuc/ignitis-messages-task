@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtMaker {
 
-    //++
+
     public String generateToken(Authentication authentication){
 
         String username = authentication.getName();
@@ -28,7 +28,7 @@ public class JwtMaker {
                 .compact();
     }
 
-    //++
+
     public String getUsernameFromJWT(String token){
 
         Claims claims = Jwts.parser()
@@ -39,7 +39,6 @@ public class JwtMaker {
         return claims.getSubject();
     }
 
-    //++ Rename this method isTokenValid()
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(SecurityConstraints.JWT_SECRET).build().parseClaimsJwt(token);

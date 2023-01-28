@@ -2,7 +2,6 @@ package com.mykolas.ignitismessagetask.message;
 
 
 import com.mykolas.ignitismessagetask.user.User;
-import com.mykolas.ignitismessagetask.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,37 +14,34 @@ import java.util.Optional;
 @Service
 public class MessageService {
 
-    private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
+    private final MessageQueries messageQueries;
 
-    @Autowired
-    public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
-        this.messageRepository = messageRepository;
-        this.userRepository = userRepository;
+    public MessageService(MessageQueries messageQueries){
+        this.messageQueries = messageQueries;
     }
 
     public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+        return messageQueries.selectAllMessagesQuery();
     }
 
-
+    // GOOD TO HERE.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
-        Optional<User> presentReceiverOptional = userRepository.findById(newMessageRequest.getReceiverId());
-        if(presentReceiverOptional.isEmpty()){
+        User presentReceiver = messageQueries.fetchUserById(newMessageRequest.getReceiverId());
+        if(presentReceiver == null){
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
         // Check if receiver is not an ADMIN.
-        String presentReceiverRole = presentReceiverOptional.get().getRole();
+        String presentReceiverRole = presentReceiver.getRole();
         if(presentReceiverRole.equals("ROLE_ADMIN")){
             throw new ReceiverIsAdminException();
         }
 
         Authentication currentUserAuthentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = currentUserAuthentication.getName();
-        Optional<User> currentUserOptional = userRepository.findByEmail(currentUserEmail);
-        Long currentUserId = currentUserOptional.get().getId();
+        User currentUser = messageQueries.fetchUserByEmail(currentUserEmail);
+        Long currentUserId = currentUser.getId();
 
         if (currentUserId == newMessageRequest.getReceiverId()){
             throw new MessageAuthorAndReceiverSameException();
@@ -65,6 +61,6 @@ public class MessageService {
                 .length(convertedLengthOfMessageToLong)
                 .build();
 
-        messageRepository.save(message);
+        messageQueries.insertNewMessageIntoMessagesTable(message);
     }
 }

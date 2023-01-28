@@ -10,21 +10,23 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository){
-        this.userRepository = userRepository;
+    private final UserQueries userQueries;
+
+    public UserService(UserQueries userQueries){
+        this.userQueries = userQueries;
     }
 
+    // GOOD UP TO HERE.
     public List<User> getAllUsersService() {
-       return userRepository.findAll();
+       return userQueries.getAllExistingUsers();
     }
 
     // Create User service. Check if same email does not exist.
     public void createUser(UserAddRequest userAddRequest){
-        Optional<User> sameUser = userRepository.findByEmail(userAddRequest.getEmail());
-        if(sameUser.isPresent()){
+
+        boolean isUserWithProvidedEmailExists = userQueries.isUserWithProvidedEmailAlreadyExists(userAddRequest.getEmail());
+        if(isUserWithProvidedEmailExists){
             throw new UserAlreadyExistsException(userAddRequest.getEmail());
         }
 
@@ -35,31 +37,28 @@ public class UserService {
                 .role("ROLE_USER")
                 .build();
 
-        userRepository.save(user);
+        userQueries.insertNewUserIntoUsersTable(user);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        userQueries.deleteUserById(id);
     }
 
     // Method to store JWT.
     //++
     public void storeJwt(String email, String token) throws Exception{
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if(userOptional.isEmpty()){
+
+        User userResult = userQueries.fetchUserByEmail(email);
+        if(userResult == null){
             throw new UnauthorizedException("User does not exist. ");
         }
 
-        User user = userOptional.get();
-        user.setToken(token);
-        userRepository.save(user);
+        userQueries.updateTokenValueForUserByEmail(token,email);
     }
 
-    public void deleteToken(User user){
-
-        user.setToken(null);
+    public void deleteTokenAndClearSecurityContext(String emailOfCurrentUser){
         SecurityContextHolder.clearContext();
-        userRepository.save(user);
+        userQueries.updateUserJwtTokenToNullValue(emailOfCurrentUser);
     }
 
 }

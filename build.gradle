@@ -1,8 +1,17 @@
+buildscript {
+	configurations["classpath"].resolutionStrategy.eachDependency {
+		if (requested.group == "org.jooq") {
+			useVersion("3.16.3")
+		}
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
 }
+
 
 group = 'com.mykolas'
 version = '0.0.1-SNAPSHOT'
@@ -14,20 +23,22 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.8'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.8'
 
 	implementation 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-
 	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq:2.7.8'
+	implementation 'org.jooq:jooq:3.16.3'
+	implementation 'com.h2database:h2'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation 'com.h2database:h2'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 

@@ -1,11 +1,18 @@
 databaseChangeLog:
   - changeSet:
-      id: create_users_table
+      id: generate_schema_APP
       author: Mykolas
-      comment: Creating 'users' table to hold all the existing users.
+      changes:
+        - sql:
+            sql: CREATE SCHEMA APP
+  - changeSet:
+      id: create_USERS_table
+      author: Mykolas
+      comment: Creating 'USERS' table to hold all the existing users.
       changes:
         - createTable:
-            tableName: users
+            tableName: USERS
+            schemaName: APP
             columns:
               - column:
                   name: id
@@ -27,10 +34,11 @@ databaseChangeLog:
                   name: role
                   type: varchar(30)
         - addPrimaryKey:
+            schemaName: APP
             columnNames: id
-            tableName: users
+            tableName: USERS
         - sql:
-            sql: ALTER TABLE users ADD CONSTRAINT allow_only_admin_or_user CHECK (role IN ('ROLE_ADMIN','ROLE_USER'))
+            sql: ALTER TABLE APP.USERS ADD CONSTRAINT allow_only_admin_or_user CHECK (role IN ('ROLE_ADMIN','ROLE_USER'))
 
   - changeSet:
       id: create_messages_table
@@ -39,6 +47,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: messages
+            schemaName: APP
             columns:
               - column:
                   name: id
@@ -60,19 +69,24 @@ databaseChangeLog:
                   name: receiver_id
                   type: int
         - addPrimaryKey:
+            schemaName: APP
             columnNames: id
             tableName: messages
         - addForeignKeyConstraint:
+            referencedTableSchemaName: APP
+            baseTableSchemaName: APP
             baseTableName: messages
             baseColumnNames: author_id
             constraintName: author_id_fk
-            referencedTableName: users
+            referencedTableName: USERS
             referencedColumnNames: id
         - addForeignKeyConstraint:
+            referencedTableSchemaName: APP
+            baseTableSchemaName: APP
             baseTableName: messages
             baseColumnNames: receiver_id
             constraintName: receiver_id_fk
-            referencedTableName: users
+            referencedTableName: USERS
             referencedColumnNames: id
 
   - changeSet:
@@ -81,7 +95,8 @@ databaseChangeLog:
       comment: Adding mock data to the tables of database.
       changes:
         - insert:
-            tableName: users
+            tableName: USERS
+            schemaName: APP
             columns:
               - column:
                   name: email
@@ -96,7 +111,8 @@ databaseChangeLog:
                   name: role
                   value: ROLE_ADMIN
         - insert:
-            tableName: users
+            tableName: USERS
+            schemaName: APP
             columns:
               - column:
                   name: email
@@ -111,7 +127,8 @@ databaseChangeLog:
                   name: role
                   value: ROLE_USER
         - insert:
-            tableName: users
+            tableName: USERS
+            schemaName: APP
             columns:
               - column:
                   name: email
@@ -127,6 +144,7 @@ databaseChangeLog:
                   value: ROLE_USER
         - insert:
             tableName: messages
+            schemaName: APP
             columns:
               - column:
                   name: author_id
@@ -145,6 +163,7 @@ databaseChangeLog:
                   value: 2
         - insert:
             tableName: messages
+            schemaName: APP
             columns:
               - column:
                   name: author_id

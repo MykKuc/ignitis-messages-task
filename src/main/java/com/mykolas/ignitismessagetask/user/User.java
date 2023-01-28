@@ -1,32 +1,15 @@
 package com.mykolas.ignitismessagetask.user;
 
 import lombok.Builder;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "users")
 @Builder
 public class User {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id @Column(name = "id")
+
     private long id;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "name")
     private  String name;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "token")
     private String token;
-
-    @Column(name = "role")
     private String role;
-
 
     public User() {
     }

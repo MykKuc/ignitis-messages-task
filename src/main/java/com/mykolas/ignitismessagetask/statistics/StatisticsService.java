@@ -1,8 +1,7 @@
 package com.mykolas.ignitismessagetask.statistics;
 
-import com.mykolas.ignitismessagetask.message.MessageRepository;
 import com.mykolas.ignitismessagetask.user.User;
-import com.mykolas.ignitismessagetask.user.UserRepository;
+import com.mykolas.ignitismessagetask.user.UserQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,21 @@ import java.util.List;
 @Service
 public class StatisticsService {
 
-    private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
+    private final UserQueries userQueries;
+
+    private final StatisticsQueries statisticsQueries;
 
     @Autowired
-    public StatisticsService(MessageRepository messageRepository, UserRepository userRepository){
-        this.messageRepository = messageRepository;
-        this.userRepository = userRepository;
+    public StatisticsService(UserQueries userQueries, StatisticsQueries statisticsQueries) {
+        this.userQueries = userQueries;
+        this.statisticsQueries = statisticsQueries;
     }
 
     public List<Statistic> getStatistics(){
 
         ArrayList<Statistic> allUserStatisticsArray = new ArrayList<>();
 
-        List<User> listOfAllUsers = userRepository.findAll();
+        List<User> listOfAllUsers = userQueries.getAllExistingUsers();
 
         for(User user:listOfAllUsers){
 
@@ -34,16 +34,26 @@ public class StatisticsService {
 
             userStatistic.setUserId(user.getId());
             userStatistic.setUserEmail(user.getEmail());
-            userStatistic.setTotalMessages(messageRepository.countAllByAuthorId(user.getId()));
-            userStatistic.setFirstMessage(messageRepository.findByEarliestMeesageTime(user.getId()));
-            userStatistic.setLastMessage(messageRepository.findLastMessageDate(user.getId()));
-            userStatistic.setAverageMessageLength(messageRepository.findAverageMessageLength(user.getId()));
+            userStatistic.setTotalMessages(statisticsQueries.fetchTotalNumberMessagesByAuthor(Math.toIntExact(user.getId())));
 
-            LocalDateTime lastMessageTime = messageRepository.findLastMessageDate(user.getId());
-            userStatistic.setLastMessageText(messageRepository.findMessageContentOfLatestMessage(user.getId(),lastMessageTime));
+            //Earliest message time.
+           userStatistic.setFirstMessage(statisticsQueries.fetchTimeFirstMessageOfUserById(user.getId()));
+            // Last message time.
+            LocalDateTime latestMessageTime = statisticsQueries.fetchTimeLatestMessageOfUserById(user.getId());
+           userStatistic.setLastMessage(latestMessageTime);
+            // Get Average length of message.
+           userStatistic.setAverageMessageLength(statisticsQueries.fetchAverageLengthOfMessageByUser(Math.toIntExact(user.getId())));
+
+           // Last message text.
+            if(latestMessageTime != null){
+                userStatistic.setLastMessageText(statisticsQueries.fetchLastMessageTextByUserById(user.getId(),latestMessageTime));
+            }
+
 
             allUserStatisticsArray.add(userStatistic);
         }
+
+
         return allUserStatisticsArray;
     }
 }
