@@ -10,8 +10,19 @@ public class User {
     private String password;
     private String token;
     private String role;
+    private Boolean isactive;
 
     public User() {
+    }
+
+    public User(long id, String email, String name, String password, String token, String role, Boolean isactive) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.token = token;
+        this.role = role;
+        this.isactive = isactive;
     }
 
     public String getRole() {
@@ -22,14 +33,6 @@ public class User {
         this.role = role;
     }
 
-    public User(long id, String email, String name, String password, String token, String role) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.token = token;
-        this.role = role;
-    }
 
     public long getId() {
         return id;
@@ -69,5 +72,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean getActive() {
+        return isactive;
+    }
+
+    public void setActive(Boolean active) {
+        isactive = active;
     }
 }

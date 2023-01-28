@@ -14,14 +14,16 @@ public class Message {
     private Long length;
     private String content;
     private Long receiverId;
+    private boolean authoractive;
 
-    public Message(Long id, Long authorId, LocalDateTime time, Long length, String content, Long receiverId) {
+    public Message(Long id, Long authorId, LocalDateTime time, Long length, String content, Long receiverId, Boolean authoractive) {
         this.id = id;
         this.authorId = authorId;
         this.time = time;
         this.length = length;
         this.content = content;
         this.receiverId = receiverId;
+        this.authoractive = authoractive;
     }
 
     public Message() {
@@ -73,5 +75,13 @@ public class Message {
 
     public void setReceiverId(Long receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public boolean isAuthoractive() {
+        return authoractive;
+    }
+
+    public void setAuthoractive(boolean authoractive) {
+        this.authoractive = authoractive;
     }
 }

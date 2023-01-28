@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -79,6 +79,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>APP.USERS.ROLE</code>.
      */
     public final TableField<UsersRecord, String> ROLE = createField(DSL.name("ROLE"), SQLDataType.VARCHAR(30), this, "");
+
+    /**
+     * The column <code>APP.USERS.ISACTIVE</code>.
+     */
+    public final TableField<UsersRecord, Boolean> ISACTIVE = createField(DSL.name("ISACTIVE"), SQLDataType.BOOLEAN.defaultValue(DSL.field("TRUE", SQLDataType.BOOLEAN)), this, "");
 
     private Users(Name alias, Table<UsersRecord> aliased) {
         this(alias, aliased, null);
@@ -162,11 +167,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Integer, String, String, String, String, String> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Integer, String, String, String, String, String, Boolean> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

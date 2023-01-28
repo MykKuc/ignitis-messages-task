@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -78,6 +78,11 @@ public class Messages extends TableImpl<MessagesRecord> {
      * The column <code>APP.MESSAGES.RECEIVER_ID</code>.
      */
     public final TableField<MessagesRecord, Integer> RECEIVER_ID = createField(DSL.name("RECEIVER_ID"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>APP.MESSAGES.AUTHORACTIVE</code>.
+     */
+    public final TableField<MessagesRecord, Boolean> AUTHORACTIVE = createField(DSL.name("AUTHORACTIVE"), SQLDataType.BOOLEAN.defaultValue(DSL.field("TRUE", SQLDataType.BOOLEAN)), this, "");
 
     private Messages(Name alias, Table<MessagesRecord> aliased) {
         this(alias, aliased, null);
@@ -184,11 +189,11 @@ public class Messages extends TableImpl<MessagesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Integer, Integer, LocalDateTime, Integer, String, Integer> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Integer, Integer, LocalDateTime, Integer, String, Integer, Boolean> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

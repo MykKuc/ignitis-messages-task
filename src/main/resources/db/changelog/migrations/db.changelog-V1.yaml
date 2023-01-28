@@ -33,12 +33,20 @@ databaseChangeLog:
               - column:
                   name: role
                   type: varchar(30)
+              - column:
+                  name: isactive
+                  type: boolean
         - addPrimaryKey:
             schemaName: APP
             columnNames: id
             tableName: USERS
         - sql:
             sql: ALTER TABLE APP.USERS ADD CONSTRAINT allow_only_admin_or_user CHECK (role IN ('ROLE_ADMIN','ROLE_USER'))
+        - addDefaultValue:
+            schemaName: APP
+            tableName: USERS
+            columnName: isactive
+            defaultValueBoolean: true
 
   - changeSet:
       id: create_messages_table
@@ -68,6 +76,9 @@ databaseChangeLog:
               - column:
                   name: receiver_id
                   type: int
+              - column:
+                  name: authoractive
+                  type: boolean
         - addPrimaryKey:
             schemaName: APP
             columnNames: id
@@ -88,6 +99,11 @@ databaseChangeLog:
             constraintName: receiver_id_fk
             referencedTableName: USERS
             referencedColumnNames: id
+        - addDefaultValue:
+            schemaName: APP
+            tableName: messages
+            columnName: authoractive
+            defaultValueBoolean: true
 
   - changeSet:
       id: add_mock_data_to_db
