@@ -1,6 +1,7 @@
 package com.mykolas.ignitismessagetask.user;
 
 import com.mykolas.ignitismessagetask.jooqdatabase.Tables;
+import com.mykolas.ignitismessagetask.jooqdatabase.tables.Messages;
 import com.mykolas.ignitismessagetask.jooqdatabase.tables.Users;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -45,10 +46,16 @@ public class UserQueries {
                 .execute();
     }
 
-    public void deleteUserById(Long id) {
+    public void markUserIsDeleteByIdAndMarkMessagesOfDeletedAuthor(Long id) {
         create
-                .delete(Users.USERS)
+                .update(Tables.USERS)
+                .set(Users.USERS.ISACTIVE, false)
                 .where(Users.USERS.ID.eq(Math.toIntExact(id)))
+                .execute();
+        create
+                .update(Tables.MESSAGES)
+                .set(Messages.MESSAGES.AUTHORACTIVE, false)
+                .where(Messages.MESSAGES.AUTHOR_ID.eq(Math.toIntExact(id)))
                 .execute();
     }
 

@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        userQueries.deleteUserById(id);
+        userQueries.markUserIsDeleteByIdAndMarkMessagesOfDeletedAuthor(id);
     }
 
     // Method to store JWT.
