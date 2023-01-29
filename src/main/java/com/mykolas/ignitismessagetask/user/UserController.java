@@ -3,6 +3,7 @@ package com.mykolas.ignitismessagetask.user;
 import com.mykolas.ignitismessagetask.security.AuthResponse;
 import com.mykolas.ignitismessagetask.security.JwtMaker;
 import com.mykolas.ignitismessagetask.security.UnauthorizedException;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +54,15 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    // All Good up to here.
+    // TODO Makes this controller thinner. Too much code in here.
     @PostMapping("login")
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
+
+        // Functionality that the user does not exist. Incorrect Email address.
+        Record userByEmailOrNull = userQueries.fetchUserRecordOrNullValueByEmail(loginRequest.getEmail());
+        if (userByEmailOrNull == null){
+            throw new NoSuchEmailOrPasswordException();
+        }
 
         User currentUser = userQueries.fetchUserByEmail(loginRequest.getEmail());
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserQueries {
@@ -27,6 +28,15 @@ public class UserQueries {
                 .selectFrom(Tables.USERS)
                 .where(Users.USERS.ID.eq(Math.toIntExact(id)))
                 .fetchSingle().into(User.class);
+    }
+
+    public Record fetchUserRecordOrNullValueByEmail(String email){
+
+       return create.select()
+                .from(Tables.USERS)
+                .where(Users.USERS.EMAIL.eq(email))
+                .fetchOne();
+
     }
 
     public User fetchUserByEmail(String email) {
