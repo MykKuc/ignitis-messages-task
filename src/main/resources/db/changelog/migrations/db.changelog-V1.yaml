@@ -159,12 +159,28 @@ databaseChangeLog:
                   name: role
                   value: ROLE_USER
         - insert:
+            tableName: USERS
+            schemaName: APP
+            columns:
+              - column:
+                  name: email
+                  value: mock@gmail.com
+              - column:
+                  name: name
+                  value: mock
+              - column:
+                  name: password
+                  value: secret
+              - column:
+                  name: role
+                  value: ROLE_USER
+        - insert:
             tableName: messages
             schemaName: APP
             columns:
               - column:
                   name: author_id
-                  value: 1
+                  value: 2
               - column:
                   name: time
                   value: '2019-06-26'
@@ -176,7 +192,7 @@ databaseChangeLog:
                   value: Trying out sending a message over here.
               - column:
                   name: receiver_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: messages
             schemaName: APP
@@ -195,4 +211,42 @@ databaseChangeLog:
                   value: Here is another message being sent out.
               - column:
                   name: receiver_id
+                  value: 3
+        - insert:
+            tableName: messages
+            schemaName: APP
+            columns:
+              - column:
+                  name: author_id
+                  value: 3
+              - column:
+                  name: time
+                  value: '2021-06-26'
+              - column:
+                  name: length
+                  value: 39
+              - column:
+                  name: content
+                  value: Here is another message being sent out.
+              - column:
+                  name: receiver_id
                   value: 2
+        - insert:
+            tableName: messages
+            schemaName: APP
+            columns:
+              - column:
+                  name: author_id
+                  value: 4
+              - column:
+                  name: time
+                  value: '2021-06-26'
+              - column:
+                  name: length
+                  value: 39
+              - column:
+                  name: content
+                  value: Here is another message being sent out.
+              - column:
+                  name: receiver_id
+                  value: 3

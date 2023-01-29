@@ -1,6 +1,5 @@
 package com.mykolas.ignitismessagetask.statistics;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.mykolas.ignitismessagetask.user.User;
 import com.mykolas.ignitismessagetask.user.UserQueries;
 import org.springframework.beans.factory.annotation.Autowired;
