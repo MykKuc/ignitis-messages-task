@@ -25,16 +25,11 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtMaker jwtMaker;
-
     private final UserQueries userQueries;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, JwtMaker jwtMaker, UserQueries userQueries){
+    public UserController(UserService userService, UserQueries userQueries){
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtMaker = jwtMaker;
         this.userQueries = userQueries;
     }
 
@@ -57,36 +52,8 @@ public class UserController {
     // TODO Makes this controller thinner. Too much code in here.
     @PostMapping("login")
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
-
-        // Functionality that the user does not exist. Incorrect Email address.
-        Record userByEmailOrNull = userQueries.fetchUserRecordOrNullValueByEmail(loginRequest.getEmail());
-        if (userByEmailOrNull == null){
-            throw new NoSuchEmailOrPasswordException();
-        }
-
-        User currentUser = userQueries.fetchUserByEmail(loginRequest.getEmail());
-
-        if (Boolean.FALSE.equals(currentUser.getActive())) {
-            throw new UserIsDeletedException(loginRequest.getEmail());
-        }
-
-        String roleOfAuthenticatedUser = currentUser.getRole();
-        ArrayList<String> collectionOfRoles = new ArrayList<>();
-        collectionOfRoles.add(roleOfAuthenticatedUser);
-
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword(),
-                        collectionOfRoles.stream().map(authority -> (GrantedAuthority) () -> authority)
-                                .collect(Collectors.toList())
-                ));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtMaker.generateToken(authentication);
-        userService.storeJwt(loginRequest.getEmail(), token);
-
-        return new ResponseEntity<>(new AuthResponse(token), HttpStatus.OK);
+       String returnedToken = userService.loginService(loginRequest);
+        return new ResponseEntity<>(new AuthResponse(returnedToken), HttpStatus.OK);
     }
 
     //++
