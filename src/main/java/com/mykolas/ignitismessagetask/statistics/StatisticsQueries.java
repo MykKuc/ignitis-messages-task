@@ -26,6 +26,11 @@ public class StatisticsQueries {
                 .fetchCount(Tables.MESSAGES, Messages.MESSAGES.AUTHOR_ID.eq(authorId));
     }
 
+    public Integer fetchTotalMessagesByReceiver(Integer receiverId){
+        return create
+                .fetchCount(Tables.MESSAGES, Messages.MESSAGES.RECEIVER_ID.eq(receiverId));
+    }
+
     // Fix this. Maybe I should provide just String, don't need anything else.
     public LocalDateTime fetchTimeFirstMessageOfUserById(Long userId) {
        return Objects.requireNonNull(create

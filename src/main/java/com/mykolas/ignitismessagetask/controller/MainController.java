@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+// TODO Delete this controller later. Not needed.
 @RestController
 public class MainController {
 

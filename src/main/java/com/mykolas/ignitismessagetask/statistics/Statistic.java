@@ -9,11 +9,27 @@ public class Statistic {
 
     private Long userId;
     private String userEmail;
-    private Integer totalMessages;
+    private Integer totalMessagesSent;
+    private Integer totalMessagesReceived;
     private LocalDateTime firstMessage;
     private LocalDateTime lastMessage;
     private Double averageMessageLength;
     private String lastMessageText;
+
+
+    public Statistic(Long userId, String userEmail, Integer totalMessagesSent, Integer totalMessagesReceived, LocalDateTime firstMessage, LocalDateTime lastMessage, Double averageMessageLength, String lastMessageText) {
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.totalMessagesSent = totalMessagesSent;
+        this.firstMessage = firstMessage;
+        this.totalMessagesReceived = totalMessagesReceived;
+        this.lastMessage = lastMessage;
+        this.averageMessageLength = averageMessageLength;
+        this.lastMessageText = lastMessageText;
+    }
+
+    public Statistic() {
+    }
 
     public String getUserEmail() {
         return userEmail;
@@ -23,18 +39,6 @@ public class Statistic {
         this.userEmail = userEmail;
     }
 
-    public Statistic(Long userId, String userEmail, Integer totalMessages, LocalDateTime firstMessage, LocalDateTime lastMessage, Double averageMessageLength, String lastMessageText) {
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.totalMessages = totalMessages;
-        this.firstMessage = firstMessage;
-        this.lastMessage = lastMessage;
-        this.averageMessageLength = averageMessageLength;
-        this.lastMessageText = lastMessageText;
-    }
-
-    public Statistic() {
-    }
 
     public Long getUserId() {
         return userId;
@@ -44,12 +48,20 @@ public class Statistic {
         this.userId = userId;
     }
 
-    public Integer getTotalMessages() {
-        return totalMessages;
+    public Integer getTotalMessagesSent() {
+        return totalMessagesSent;
     }
 
-    public void setTotalMessages(Integer totalMessages) {
-        this.totalMessages = totalMessages;
+    public void setTotalMessagesSent(Integer totalMessagesSent) {
+        this.totalMessagesSent = totalMessagesSent;
+    }
+
+    public Integer getTotalMessagesReceived() {
+        return totalMessagesReceived;
+    }
+
+    public void setTotalMessagesReceived(Integer totalMessagesReceived) {
+        this.totalMessagesReceived = totalMessagesReceived;
     }
 
     public LocalDateTime getFirstMessage() {

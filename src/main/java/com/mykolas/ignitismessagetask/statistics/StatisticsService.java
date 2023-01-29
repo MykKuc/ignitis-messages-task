@@ -1,5 +1,6 @@
 package com.mykolas.ignitismessagetask.statistics;
 
+import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.mykolas.ignitismessagetask.user.User;
 import com.mykolas.ignitismessagetask.user.UserQueries;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class StatisticsService {
         this.statisticsQueries = statisticsQueries;
     }
 
+    // TODO Rename fields in Statistics POJO to be more precise.
     public List<Statistic> getStatistics(){
 
         ArrayList<Statistic> allUserStatisticsArray = new ArrayList<>();
@@ -34,7 +36,9 @@ public class StatisticsService {
 
             userStatistic.setUserId(user.getId());
             userStatistic.setUserEmail(user.getEmail());
-            userStatistic.setTotalMessages(statisticsQueries.fetchTotalNumberMessagesByAuthor(Math.toIntExact(user.getId())));
+
+            userStatistic.setTotalMessagesSent(statisticsQueries.fetchTotalNumberMessagesByAuthor(Math.toIntExact(user.getId())));
+            userStatistic.setTotalMessagesReceived(statisticsQueries.fetchTotalMessagesByReceiver(Math.toIntExact(user.getId())));
 
             //Earliest message time.
            userStatistic.setFirstMessage(statisticsQueries.fetchTimeFirstMessageOfUserById(user.getId()));
