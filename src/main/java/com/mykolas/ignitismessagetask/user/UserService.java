@@ -1,12 +1,11 @@
 package com.mykolas.ignitismessagetask.user;
 
 import com.mykolas.ignitismessagetask.security.UnauthorizedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -30,10 +29,11 @@ public class UserService {
             throw new UserAlreadyExistsException(userAddRequest.getEmail());
         }
 
+        // TODO Test password encoder. Create and login with this password.
         User user = User.builder()
                 .name(userAddRequest.getName())
                 .email(userAddRequest.getEmail())
-                .password(userAddRequest.getPassword())
+                .password(new BCryptPasswordEncoder().encode(userAddRequest.getPassword()))
                 .role("ROLE_USER")
                 .build();
 

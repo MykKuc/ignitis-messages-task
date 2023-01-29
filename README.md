@@ -18,5 +18,8 @@ POST user/login/ endpoint:
 User with ROLE_ADMIN can create other users with ROLE_USER and it can also
 delete the user and get the statistics about all the messages.
 
+**Note** - Password encoding. Passwords of mock users are not encoded, but passwords of newly created
+users will get encoded.
+
 Database Relations graph is given below:
 ![DB schema](/DBSchema.PNG)
