@@ -58,6 +58,11 @@ public class UserController {
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
 
         User currentUser = userQueries.fetchUserByEmail(loginRequest.getEmail());
+
+        if (Boolean.FALSE.equals(currentUser.getActive())) {
+            throw new UserIsDeletedException(loginRequest.getEmail());
+        }
+
         String roleOfAuthenticatedUser = currentUser.getRole();
         ArrayList<String> collectionOfRoles = new ArrayList<>();
         collectionOfRoles.add(roleOfAuthenticatedUser);
