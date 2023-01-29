@@ -19,7 +19,7 @@ User with ROLE_ADMIN can create other users with ROLE_USER and it can also
 delete the user and get the statistics about all the messages.
 
 ### Simple User login
-To log in as simple user you need to pass this JSON body into
+To log in as simple user you need to pass any of these three JSON bodies into
 POST user/login/ endpoint:
 
 ``
@@ -28,6 +28,26 @@ POST user/login/ endpoint:
 "password": "slaptazodis"
 }
 ``
+
+or
+
+``
+{
+"email": "person2@gmail.com",
+"password": "secret"
+}
+``
+
+or
+
+``
+{
+"email": "mock@gmail.com",
+"password": "secret1"
+}
+``
+
+
 User with ROLE_USER can write messages (POST) and receive the messages.
 
 **Note** - Password encoding. Passwords of mock users are not encoded, but passwords of newly created
