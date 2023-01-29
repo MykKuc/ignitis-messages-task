@@ -3,14 +3,12 @@ package com.mykolas.ignitismessagetask.message;
 
 import com.mykolas.ignitismessagetask.user.User;
 import org.jooq.Record;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -25,7 +23,6 @@ public class MessageService {
         return messageQueries.selectAllMessagesQuery();
     }
 
-    // GOOD TO HERE.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
         Record presentReceiverRecord = messageQueries.fetchUserById(newMessageRequest.getReceiverId());

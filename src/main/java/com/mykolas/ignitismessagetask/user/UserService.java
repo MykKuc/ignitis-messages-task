@@ -31,13 +31,12 @@ public class UserService {
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    // GOOD UP TO HERE.
     public List<User> getAllUsersService() {
        return userQueries.getAllExistingUsers();
     }
 
     public String loginService(LoginRequest loginRequest) throws Exception {
-        // Functionality that the user does not exist. Incorrect Email address.
+
         Record userByEmailOrNull = userQueries.fetchUserRecordOrNullValueByEmail(loginRequest.getEmail());
         if (userByEmailOrNull == null){
             throw new NoSuchEmailOrPasswordException();

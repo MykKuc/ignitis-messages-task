@@ -27,7 +27,6 @@ public class StatisticsQueries {
                 .fetchCount(Tables.MESSAGES, Messages.MESSAGES.RECEIVER_ID.eq(receiverId));
     }
 
-    // Fix this. Maybe I should provide just String, don't need anything else.
     public LocalDateTime fetchTimeFirstMessageByAuthorId(Long authorId) {
        return Objects.requireNonNull(create
                .select(DSL.min(Messages.MESSAGES.TIME))
