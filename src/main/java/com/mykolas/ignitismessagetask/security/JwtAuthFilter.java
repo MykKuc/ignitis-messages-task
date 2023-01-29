@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     throw new UnavailableException("User does not exist.");
                 }
                             // Add authorities here.
-                                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         user,null);
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
