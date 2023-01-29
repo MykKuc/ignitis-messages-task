@@ -29,6 +29,8 @@ public class UserService {
         this.jwtMaker = jwtMaker;
     }
 
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     // GOOD UP TO HERE.
     public List<User> getAllUsersService() {
        return userQueries.getAllExistingUsers();
@@ -45,6 +47,10 @@ public class UserService {
 
         if (Boolean.FALSE.equals(currentUser.getActive())) {
             throw new UserIsDeletedException(loginRequest.getEmail());
+        }
+
+        if (!bCryptPasswordEncoder.matches(loginRequest.getPassword(),currentUser.getPassword())){
+            throw new IncorrectPasswordException();
         }
 
         String roleOfAuthenticatedUser = currentUser.getRole();
@@ -75,7 +81,7 @@ public class UserService {
         User user = User.builder()
                 .name(userAddRequest.getName())
                 .email(userAddRequest.getEmail())
-                .password(new BCryptPasswordEncoder().encode(userAddRequest.getPassword()))
+                .password(bCryptPasswordEncoder.encode(userAddRequest.getPassword()))
                 .role("ROLE_USER")
                 .build();
 

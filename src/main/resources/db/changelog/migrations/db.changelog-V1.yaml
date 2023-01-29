@@ -122,7 +122,7 @@ databaseChangeLog:
                   value: Admin
               - column:
                   name: password
-                  value: admin
+                  value: $2a$12$MkCvKGCaLbK3oZOkGxZ8V.sVtJBAoW25lkxJKJsInDcpn6swhdVRu
               - column:
                   name: role
                   value: ROLE_ADMIN
@@ -138,7 +138,7 @@ databaseChangeLog:
                   value: VardenisPavardenis
               - column:
                   name: password
-                  value: slaptazodis
+                  value: $2a$12$6hZu0ctH8P817JkWGIaayOpoKgyqoZjPL3gMkWar8h4p3gxdvGPYC
               - column:
                   name: role
                   value: ROLE_USER
@@ -154,7 +154,7 @@ databaseChangeLog:
                   value: person
               - column:
                   name: password
-                  value: secret
+                  value: $2a$12$guSlAVWmeVUKMXPI1AzsN.dyOfxjh5YeOnmGkwWOwBhpkfaSeSqM.
               - column:
                   name: role
                   value: ROLE_USER
@@ -170,7 +170,7 @@ databaseChangeLog:
                   value: mock
               - column:
                   name: password
-                  value: secret
+                  value: $2a$12$uFamLKPcLn84CfaseX0xtuSSCm58N.8Ub0rmWa9zf3jxB4AtHA2S.
               - column:
                   name: role
                   value: ROLE_USER
