@@ -28,15 +28,15 @@ public class StatisticsQueries {
     }
 
     // Fix this. Maybe I should provide just String, don't need anything else.
-    public LocalDateTime fetchTimeFirstMessageOfUserById(Long userId) {
+    public LocalDateTime fetchTimeFirstMessageByAuthorId(Long authorId) {
        return Objects.requireNonNull(create
                .select(DSL.min(Messages.MESSAGES.TIME))
                .from(Tables.MESSAGES)
-               .where(Messages.MESSAGES.AUTHOR_ID.eq(Math.toIntExact(userId)))
+               .where(Messages.MESSAGES.AUTHOR_ID.eq(Math.toIntExact(authorId)))
                .fetchOne()).value1();
     }
 
-    public LocalDateTime fetchTimeLatestMessageOfUserById(Long userId) {
+    public LocalDateTime fetchTimeLatestMessageByAuthorId(Long userId) {
         return Objects.requireNonNull(create
                 .select(DSL.max(Messages.MESSAGES.TIME))
                 .from(Tables.MESSAGES)
@@ -45,7 +45,7 @@ public class StatisticsQueries {
     }
 
 
-    public Double fetchAverageLengthOfMessageByUser(Integer userId){
+    public Double fetchAverageLengthOfMessageByAuthorId(Integer userId){
 
        BigDecimal avgValue =  create
                 .select(DSL.avg(Messages.MESSAGES.LENGTH))
@@ -60,13 +60,52 @@ public class StatisticsQueries {
        }
     }
 
-    public String fetchLastMessageTextByUserById(Long userId, LocalDateTime latestMessageTime) {
+    public String fetchLastMessageTextByAuthorId(Long userId, LocalDateTime latestMessageTime) {
        return Objects.requireNonNull(create
                .select(Messages.MESSAGES.CONTENT)
                .from(Tables.MESSAGES)
                .where(Messages.MESSAGES.AUTHOR_ID.eq(Math.toIntExact(userId)).and(Messages.MESSAGES.TIME.eq(latestMessageTime)))
                .fetchOne()).value1();
 
+    }
+
+    public LocalDateTime fetchTimeFirstMessageByReceiverId(Long receiverId) {
+        return Objects.requireNonNull(create
+                .select(DSL.min(Messages.MESSAGES.TIME))
+                .from(Tables.MESSAGES)
+                .where(Messages.MESSAGES.RECEIVER_ID.eq(Math.toIntExact(receiverId)))
+                .fetchOne()).value1();
+    }
+
+    public LocalDateTime fetchTimeLatestMessageByReceiverId(Long receiverId) {
+        return Objects.requireNonNull(create
+                .select(DSL.max(Messages.MESSAGES.TIME))
+                .from(Tables.MESSAGES)
+                .where(Messages.MESSAGES.RECEIVER_ID.eq(Math.toIntExact(receiverId)))
+                .fetchOne()).value1();
+    }
+
+    public Double fetchAverageLengthOfMessageByReceiverId(Integer receiverId){
+
+        BigDecimal avgValue =  create
+                .select(DSL.avg(Messages.MESSAGES.LENGTH))
+                .from(Tables.MESSAGES)
+                .where(Messages.MESSAGES.RECEIVER_ID.eq(receiverId))
+                .fetchSingle().value1();
+
+        if(avgValue != null){
+            return avgValue.doubleValue();
+        } else  {
+            return 0.0;
+        }
+    }
+
+    public String fetchLastMessageTextByReceiverId(Long receiverId, LocalDateTime latestMessageTime) {
+        return Objects.requireNonNull(create
+                .select(Messages.MESSAGES.CONTENT)
+                .from(Tables.MESSAGES)
+                .where(Messages.MESSAGES.RECEIVER_ID.eq(Math.toIntExact(receiverId)).and(Messages.MESSAGES.TIME.eq(latestMessageTime)))
+                .fetchOne()).value1();
     }
 
 }

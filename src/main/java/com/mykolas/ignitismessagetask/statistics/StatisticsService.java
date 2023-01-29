@@ -22,7 +22,6 @@ public class StatisticsService {
         this.statisticsQueries = statisticsQueries;
     }
 
-    // TODO Add more fields to Statistic about the received messages.
     public List<Statistic> getStatistics(){
 
         ArrayList<Statistic> allUserStatisticsArray = new ArrayList<>();
@@ -39,19 +38,25 @@ public class StatisticsService {
             userStatistic.setTotalMessagesSent(statisticsQueries.fetchTotalNumberMessagesByAuthor(Math.toIntExact(user.getId())));
             userStatistic.setTotalMessagesReceived(statisticsQueries.fetchTotalMessagesByReceiver(Math.toIntExact(user.getId())));
 
-            //Earliest message time.
-           userStatistic.setFirstMessageSentTime(statisticsQueries.fetchTimeFirstMessageOfUserById(user.getId()));
-            // Last message time.
-            LocalDateTime latestMessageTime = statisticsQueries.fetchTimeLatestMessageOfUserById(user.getId());
-           userStatistic.setLastMessageSentTime(latestMessageTime);
-            // Get Average length of message.
-           userStatistic.setAverageMessageLength(statisticsQueries.fetchAverageLengthOfMessageByUser(Math.toIntExact(user.getId())));
+            userStatistic.setFirstMessageSentTime(statisticsQueries.fetchTimeFirstMessageByAuthorId(user.getId()));
+            userStatistic.setFirstMessageReceivedTime(statisticsQueries.fetchTimeFirstMessageByReceiverId(user.getId()));
 
-           // Last message text.
+            LocalDateTime latestMessageTime = statisticsQueries.fetchTimeLatestMessageByAuthorId(user.getId());
+            userStatistic.setLastMessageSentTime(latestMessageTime);
+
+            LocalDateTime latestReceivedMessageTime = statisticsQueries.fetchTimeLatestMessageByReceiverId(user.getId());
+            userStatistic.setLastMessageReceivedTime(latestReceivedMessageTime);
+
+            userStatistic.setAverageSentMessageLength(statisticsQueries.fetchAverageLengthOfMessageByAuthorId(Math.toIntExact(user.getId())));
+            userStatistic.setAverageReceivedMessageLength(statisticsQueries.fetchAverageLengthOfMessageByReceiverId(Math.toIntExact(user.getId())));
+
             if(latestMessageTime != null){
-                userStatistic.setLastMessageSentText(statisticsQueries.fetchLastMessageTextByUserById(user.getId(),latestMessageTime));
+                userStatistic.setLastMessageSentText(statisticsQueries.fetchLastMessageTextByAuthorId(user.getId(),latestMessageTime));
             }
 
+            if(latestReceivedMessageTime != null){
+                userStatistic.setLastMessageReceivedText(statisticsQueries.fetchLastMessageTextByReceiverId(user.getId(),latestReceivedMessageTime));
+            }
 
             allUserStatisticsArray.add(userStatistic);
         }

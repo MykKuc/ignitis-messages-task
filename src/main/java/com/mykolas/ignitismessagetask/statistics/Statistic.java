@@ -4,7 +4,6 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Builder
 public class Statistic {
 
     private Long userId;
@@ -12,20 +11,32 @@ public class Statistic {
     private Integer totalMessagesSent;
     private Integer totalMessagesReceived;
     private LocalDateTime firstMessageSentTime;
+    // New
+    private LocalDateTime firstMessageReceivedTime;
     private LocalDateTime lastMessageSentTime;
-    private Double averageMessageLength;
+    // New
+    private LocalDateTime lastMessageReceivedTime;
+    private Double averageSentMessageLength;
+    // New
+    private Double averageReceivedMessageLength;
     private String lastMessageSentText;
+    // New
+    private String lastMessageReceivedText;
 
 
-    public Statistic(Long userId, String userEmail, Integer totalMessagesSent, Integer totalMessagesReceived, LocalDateTime firstMessageSentTime, LocalDateTime lastMessageSentTime, Double averageMessageLength, String lastMessageSentText) {
+    public Statistic(Long userId, String userEmail, Integer totalMessagesSent, Integer totalMessagesReceived, LocalDateTime firstMessageSentTime, LocalDateTime lastMessageSentTime, Double averageSentMessageLength, String lastMessageSentText, LocalDateTime firstMessageReceivedTime, LocalDateTime lastMessageReceivedTime,Double averageReceivedMessageLength, String lastMessageReceivedText ) {
         this.userId = userId;
         this.userEmail = userEmail;
         this.totalMessagesSent = totalMessagesSent;
         this.firstMessageSentTime = firstMessageSentTime;
         this.totalMessagesReceived = totalMessagesReceived;
         this.lastMessageSentTime = lastMessageSentTime;
-        this.averageMessageLength = averageMessageLength;
+        this.averageSentMessageLength = averageSentMessageLength;
         this.lastMessageSentText = lastMessageSentText;
+        this.firstMessageReceivedTime = firstMessageReceivedTime;
+        this.lastMessageReceivedTime = lastMessageReceivedTime;
+        this.averageReceivedMessageLength = averageReceivedMessageLength;
+        this.lastMessageReceivedText = lastMessageReceivedText;
     }
 
     public Statistic() {
@@ -80,12 +91,12 @@ public class Statistic {
         this.lastMessageSentTime = lastMessageSentTime;
     }
 
-    public Double getAverageMessageLength() {
-        return averageMessageLength;
+    public Double getAverageSentMessageLength() {
+        return averageSentMessageLength;
     }
 
-    public void setAverageMessageLength(Double averageMessageLength) {
-        this.averageMessageLength = averageMessageLength;
+    public void setAverageSentMessageLength(Double averageSentMessageLength) {
+        this.averageSentMessageLength = averageSentMessageLength;
     }
 
     public String getLastMessageSentText() {
@@ -94,5 +105,37 @@ public class Statistic {
 
     public void setLastMessageSentText(String lastMessageSentText) {
         this.lastMessageSentText = lastMessageSentText;
+    }
+
+    public LocalDateTime getFirstMessageReceivedTime() {
+        return firstMessageReceivedTime;
+    }
+
+    public void setFirstMessageReceivedTime(LocalDateTime firstMessageReceivedTime) {
+        this.firstMessageReceivedTime = firstMessageReceivedTime;
+    }
+
+    public LocalDateTime getLastMessageReceivedTime() {
+        return lastMessageReceivedTime;
+    }
+
+    public void setLastMessageReceivedTime(LocalDateTime lastMessageReceivedTime) {
+        this.lastMessageReceivedTime = lastMessageReceivedTime;
+    }
+
+    public Double getAverageReceivedMessageLength() {
+        return averageReceivedMessageLength;
+    }
+
+    public void setAverageReceivedMessageLength(Double averageReceivedMessageLength) {
+        this.averageReceivedMessageLength = averageReceivedMessageLength;
+    }
+
+    public String getLastMessageReceivedText() {
+        return lastMessageReceivedText;
+    }
+
+    public void setLastMessageReceivedText(String lastMessageReceivedText) {
+        this.lastMessageReceivedText = lastMessageReceivedText;
     }
 }

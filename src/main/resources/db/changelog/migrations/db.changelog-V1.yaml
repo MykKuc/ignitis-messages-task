@@ -208,7 +208,7 @@ databaseChangeLog:
                   value: 39
               - column:
                   name: content
-                  value: Here is another message being sent out.
+                  value: Here is another message by author 2 .
               - column:
                   name: receiver_id
                   value: 3

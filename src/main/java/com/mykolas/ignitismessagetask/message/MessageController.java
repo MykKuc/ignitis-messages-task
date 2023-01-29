@@ -23,8 +23,8 @@ public class MessageController {
         return messageService.getAllMessages();
     }
 
-    // Write a new message.
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void createMessage(@RequestBody NewMessageRequest newMessageRequest) {
         messageService.createMessage(newMessageRequest);
     }
