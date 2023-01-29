@@ -22,6 +22,13 @@ public class UserQueries {
       return allUsersSelected.into(User.class);
     }
 
+    public User fetchUserById(Long id) {
+       return create
+                .selectFrom(Tables.USERS)
+                .where(Users.USERS.ID.eq(Math.toIntExact(id)))
+                .fetchSingle().into(User.class);
+    }
+
     public User fetchUserByEmail(String email) {
        return create.select()
                 .from(Tables.USERS)

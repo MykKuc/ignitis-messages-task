@@ -41,6 +41,13 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+
+        User deletableUser = userQueries.fetchUserById(id);
+
+        if (deletableUser.getRole().equals("ROLE_ADMIN")){
+            throw new AdminDeleteItselfException();
+        }
+
         userQueries.markUserIsDeleteByIdAndMarkMessagesOfDeletedAuthor(id);
     }
 
