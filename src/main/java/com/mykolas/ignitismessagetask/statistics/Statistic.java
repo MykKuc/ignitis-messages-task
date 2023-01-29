@@ -11,21 +11,21 @@ public class Statistic {
     private String userEmail;
     private Integer totalMessagesSent;
     private Integer totalMessagesReceived;
-    private LocalDateTime firstMessage;
-    private LocalDateTime lastMessage;
+    private LocalDateTime firstMessageSentTime;
+    private LocalDateTime lastMessageSentTime;
     private Double averageMessageLength;
-    private String lastMessageText;
+    private String lastMessageSentText;
 
 
-    public Statistic(Long userId, String userEmail, Integer totalMessagesSent, Integer totalMessagesReceived, LocalDateTime firstMessage, LocalDateTime lastMessage, Double averageMessageLength, String lastMessageText) {
+    public Statistic(Long userId, String userEmail, Integer totalMessagesSent, Integer totalMessagesReceived, LocalDateTime firstMessageSentTime, LocalDateTime lastMessageSentTime, Double averageMessageLength, String lastMessageSentText) {
         this.userId = userId;
         this.userEmail = userEmail;
         this.totalMessagesSent = totalMessagesSent;
-        this.firstMessage = firstMessage;
+        this.firstMessageSentTime = firstMessageSentTime;
         this.totalMessagesReceived = totalMessagesReceived;
-        this.lastMessage = lastMessage;
+        this.lastMessageSentTime = lastMessageSentTime;
         this.averageMessageLength = averageMessageLength;
-        this.lastMessageText = lastMessageText;
+        this.lastMessageSentText = lastMessageSentText;
     }
 
     public Statistic() {
@@ -64,20 +64,20 @@ public class Statistic {
         this.totalMessagesReceived = totalMessagesReceived;
     }
 
-    public LocalDateTime getFirstMessage() {
-        return firstMessage;
+    public LocalDateTime getFirstMessageSentTime() {
+        return firstMessageSentTime;
     }
 
-    public void setFirstMessage(LocalDateTime firstMessage) {
-        this.firstMessage = firstMessage;
+    public void setFirstMessageSentTime(LocalDateTime firstMessageSentTime) {
+        this.firstMessageSentTime = firstMessageSentTime;
     }
 
-    public LocalDateTime getLastMessage() {
-        return lastMessage;
+    public LocalDateTime getLastMessageSentTime() {
+        return lastMessageSentTime;
     }
 
-    public void setLastMessage(LocalDateTime lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setLastMessageSentTime(LocalDateTime lastMessageSentTime) {
+        this.lastMessageSentTime = lastMessageSentTime;
     }
 
     public Double getAverageMessageLength() {
@@ -88,11 +88,11 @@ public class Statistic {
         this.averageMessageLength = averageMessageLength;
     }
 
-    public String getLastMessageText() {
-        return lastMessageText;
+    public String getLastMessageSentText() {
+        return lastMessageSentText;
     }
 
-    public void setLastMessageText(String lastMessageText) {
-        this.lastMessageText = lastMessageText;
+    public void setLastMessageSentText(String lastMessageSentText) {
+        this.lastMessageSentText = lastMessageSentText;
     }
 }

@@ -3,9 +3,6 @@ package com.mykolas.ignitismessagetask.statistics;
 import com.mykolas.ignitismessagetask.jooqdatabase.Tables;
 import com.mykolas.ignitismessagetask.jooqdatabase.tables.Messages;
 import org.jooq.DSLContext;
-import org.jooq.Field;
-import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 @Component
 public class StatisticsQueries {

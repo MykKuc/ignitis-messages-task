@@ -23,7 +23,7 @@ public class StatisticsService {
         this.statisticsQueries = statisticsQueries;
     }
 
-    // TODO Rename fields in Statistics POJO to be more precise.
+    // TODO Add more fields to Statistic about the received messages.
     public List<Statistic> getStatistics(){
 
         ArrayList<Statistic> allUserStatisticsArray = new ArrayList<>();
@@ -41,16 +41,16 @@ public class StatisticsService {
             userStatistic.setTotalMessagesReceived(statisticsQueries.fetchTotalMessagesByReceiver(Math.toIntExact(user.getId())));
 
             //Earliest message time.
-           userStatistic.setFirstMessage(statisticsQueries.fetchTimeFirstMessageOfUserById(user.getId()));
+           userStatistic.setFirstMessageSentTime(statisticsQueries.fetchTimeFirstMessageOfUserById(user.getId()));
             // Last message time.
             LocalDateTime latestMessageTime = statisticsQueries.fetchTimeLatestMessageOfUserById(user.getId());
-           userStatistic.setLastMessage(latestMessageTime);
+           userStatistic.setLastMessageSentTime(latestMessageTime);
             // Get Average length of message.
            userStatistic.setAverageMessageLength(statisticsQueries.fetchAverageLengthOfMessageByUser(Math.toIntExact(user.getId())));
 
            // Last message text.
             if(latestMessageTime != null){
-                userStatistic.setLastMessageText(statisticsQueries.fetchLastMessageTextByUserById(user.getId(),latestMessageTime));
+                userStatistic.setLastMessageSentText(statisticsQueries.fetchLastMessageTextByUserById(user.getId(),latestMessageTime));
             }
 
 
