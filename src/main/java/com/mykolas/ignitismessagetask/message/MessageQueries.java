@@ -22,12 +22,11 @@ public class MessageQueries {
         return results.into(Message.class);
     }
 
-    public User fetchUserById (Long id){
+    public Record fetchUserById (Long id){
         Integer idConvertedToInteger = Math.toIntExact(id);
-        Record results = create.select().from(Tables.USERS)
+        return create.select().from(Tables.USERS)
                 .where(Users.USERS.ID.eq(idConvertedToInteger))
                 .fetchOne();
-        return results.into(User.class);
     }
 
     public User fetchUserByEmail (String email){

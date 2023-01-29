@@ -2,6 +2,7 @@ package com.mykolas.ignitismessagetask.message;
 
 
 import com.mykolas.ignitismessagetask.user.User;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,13 +28,13 @@ public class MessageService {
     // GOOD TO HERE.
     public void createMessage(NewMessageRequest newMessageRequest) {
 
-        User presentReceiver = messageQueries.fetchUserById(newMessageRequest.getReceiverId());
-        if(presentReceiver == null){
+        Record presentReceiverRecord = messageQueries.fetchUserById(newMessageRequest.getReceiverId());
+        if(presentReceiverRecord == null){
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
         // Check if receiver is not an ADMIN.
-        String presentReceiverRole = presentReceiver.getRole();
+        String presentReceiverRole = presentReceiverRecord.into(User.class).getRole();
         if(presentReceiverRole.equals("ROLE_ADMIN")){
             throw new ReceiverIsAdminException();
         }
