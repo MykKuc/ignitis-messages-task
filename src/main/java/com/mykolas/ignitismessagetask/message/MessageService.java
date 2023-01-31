@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MessageService {
@@ -26,7 +27,7 @@ public class MessageService {
     public void createMessage(NewMessageRequest newMessageRequest) {
 
         Record presentReceiverRecord = messageQueries.fetchUserById(newMessageRequest.getReceiverId());
-        if(presentReceiverRecord == null){
+        if(Objects.isNull(presentReceiverRecord)){
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 

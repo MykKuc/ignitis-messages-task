@@ -14,6 +14,8 @@ import java.util.Objects;
 @Component
 public class StatisticsQueries {
 
+    private final double DEFAULT_VALUE_IF_NO_AVERAGE_OF_MESSAGE_LENGTH = 0.0;
+
     @Autowired
     private DSLContext create;
 
@@ -55,7 +57,7 @@ public class StatisticsQueries {
        if(avgValue != null){
            return avgValue.doubleValue();
        } else  {
-           return 0.0;
+           return DEFAULT_VALUE_IF_NO_AVERAGE_OF_MESSAGE_LENGTH;
        }
     }
 
@@ -95,7 +97,7 @@ public class StatisticsQueries {
         if(avgValue != null){
             return avgValue.doubleValue();
         } else  {
-            return 0.0;
+            return DEFAULT_VALUE_IF_NO_AVERAGE_OF_MESSAGE_LENGTH;
         }
     }
 

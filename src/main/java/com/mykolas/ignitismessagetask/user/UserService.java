@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +39,7 @@ public class UserService {
     public String loginService(LoginRequest loginRequest) throws Exception {
 
         Record userByEmailOrNull = userQueries.fetchUserRecordOrNullValueByEmail(loginRequest.getEmail());
-        if (userByEmailOrNull == null){
+        if (Objects.isNull(userByEmailOrNull)){
             throw new NoSuchEmailOrPasswordException();
         }
 
@@ -103,7 +104,7 @@ public class UserService {
     public void storeJwt(String email, String token) throws Exception{
 
         User userResult = userQueries.fetchUserByEmail(email);
-        if(userResult == null){
+        if(Objects.isNull(userResult)){
             throw new UnauthorizedException("User does not exist. ");
         }
 
