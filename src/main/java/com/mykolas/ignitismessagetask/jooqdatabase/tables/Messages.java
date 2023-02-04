@@ -52,12 +52,12 @@ public class Messages extends TableImpl<MessagesRecord> {
     /**
      * The column <code>APP.MESSAGES.ID</code>.
      */
-    public final TableField<MessagesRecord, Integer> ID = createField(DSL.name("ID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<MessagesRecord, Long> ID = createField(DSL.name("ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>APP.MESSAGES.AUTHOR_ID</code>.
      */
-    public final TableField<MessagesRecord, Integer> AUTHOR_ID = createField(DSL.name("AUTHOR_ID"), SQLDataType.INTEGER, this, "");
+    public final TableField<MessagesRecord, Long> AUTHOR_ID = createField(DSL.name("AUTHOR_ID"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>APP.MESSAGES.TIME</code>.
@@ -77,7 +77,7 @@ public class Messages extends TableImpl<MessagesRecord> {
     /**
      * The column <code>APP.MESSAGES.RECEIVER_ID</code>.
      */
-    public final TableField<MessagesRecord, Integer> RECEIVER_ID = createField(DSL.name("RECEIVER_ID"), SQLDataType.INTEGER, this, "");
+    public final TableField<MessagesRecord, Long> RECEIVER_ID = createField(DSL.name("RECEIVER_ID"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>APP.MESSAGES.AUTHORACTIVE</code>.
@@ -123,8 +123,8 @@ public class Messages extends TableImpl<MessagesRecord> {
     }
 
     @Override
-    public Identity<MessagesRecord, Integer> getIdentity() {
-        return (Identity<MessagesRecord, Integer>) super.getIdentity();
+    public Identity<MessagesRecord, Long> getIdentity() {
+        return (Identity<MessagesRecord, Long>) super.getIdentity();
     }
 
     @Override
@@ -193,7 +193,7 @@ public class Messages extends TableImpl<MessagesRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, Integer, LocalDateTime, Integer, String, Integer, Boolean> fieldsRow() {
+    public Row7<Long, Long, LocalDateTime, Integer, String, Long, Boolean> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 }

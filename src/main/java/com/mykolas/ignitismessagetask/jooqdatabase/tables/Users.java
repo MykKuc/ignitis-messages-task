@@ -53,7 +53,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>APP.USERS.ID</code>.
      */
-    public final TableField<UsersRecord, Integer> ID = createField(DSL.name("ID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<UsersRecord, Long> ID = createField(DSL.name("ID"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>APP.USERS.EMAIL</code>.
@@ -68,7 +68,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>APP.USERS.PASSWORD</code>.
      */
-    public final TableField<UsersRecord, String> PASSWORD = createField(DSL.name("PASSWORD"), SQLDataType.VARCHAR(40), this, "");
+    public final TableField<UsersRecord, String> PASSWORD = createField(DSL.name("PASSWORD"), SQLDataType.VARCHAR(250), this, "");
 
     /**
      * The column <code>APP.USERS.TOKEN</code>.
@@ -124,8 +124,8 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     @Override
-    public Identity<UsersRecord, Integer> getIdentity() {
-        return (Identity<UsersRecord, Integer>) super.getIdentity();
+    public Identity<UsersRecord, Long> getIdentity() {
+        return (Identity<UsersRecord, Long>) super.getIdentity();
     }
 
     @Override
@@ -171,7 +171,7 @@ public class Users extends TableImpl<UsersRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, String, String, String, String, String, Boolean> fieldsRow() {
+    public Row7<Long, String, String, String, String, String, Boolean> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 }

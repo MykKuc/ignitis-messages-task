@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class UserQueries {
@@ -26,7 +25,7 @@ public class UserQueries {
     public User fetchUserById(Long id) {
        return create
                 .selectFrom(Tables.USERS)
-                .where(Users.USERS.ID.eq(Math.toIntExact(id)))
+                .where(Users.USERS.ID.eq(id))
                 .fetchSingle().into(User.class);
     }
 
@@ -67,12 +66,12 @@ public class UserQueries {
         create
                 .update(Tables.USERS)
                 .set(Users.USERS.ISACTIVE, false)
-                .where(Users.USERS.ID.eq(Math.toIntExact(id)))
+                .where(Users.USERS.ID.eq(id))
                 .execute();
         create
                 .update(Tables.MESSAGES)
                 .set(Messages.MESSAGES.AUTHORACTIVE, false)
-                .where(Messages.MESSAGES.AUTHOR_ID.eq(Math.toIntExact(id)))
+                .where(Messages.MESSAGES.AUTHOR_ID.eq(id))
                 .execute();
     }
 

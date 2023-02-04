@@ -1,8 +1,10 @@
 package com.mykolas.ignitismessagetask.message;
 
+import org.hibernate.validator.constraints.Length;
+
 public class NewMessageRequest {
 
-
+    @Length(min = 1,max = 500)
     private String content;
 
     private Long receiverId;

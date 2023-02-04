@@ -2,6 +2,7 @@ package com.mykolas.ignitismessagetask.message;
 
 
 import lombok.Builder;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 

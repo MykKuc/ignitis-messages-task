@@ -23,9 +23,8 @@ public class MessageQueries {
     }
 
     public Record fetchUserById (Long id){
-        Integer idConvertedToInteger = Math.toIntExact(id);
         return create.select().from(Tables.USERS)
-                .where(Users.USERS.ID.eq(idConvertedToInteger))
+                .where(Users.USERS.ID.eq(id))
                 .fetchOne();
     }
 
@@ -39,7 +38,7 @@ public class MessageQueries {
     public void insertNewMessageIntoMessagesTable(Message newMessage) {
         create
                 .insertInto(Tables.MESSAGES,Messages.MESSAGES.AUTHOR_ID,Messages.MESSAGES.TIME,Messages.MESSAGES.CONTENT,Messages.MESSAGES.RECEIVER_ID,Messages.MESSAGES.LENGTH)
-                .values(Math.toIntExact(newMessage.getAuthorId()),newMessage.getTime(),newMessage.getContent(), Math.toIntExact(newMessage.getReceiverId()), Math.toIntExact(newMessage.getLength()))
+                .values(newMessage.getAuthorId(),newMessage.getTime(),newMessage.getContent(), newMessage.getReceiverId(), Math.toIntExact(newMessage.getLength()))
                 .execute();
     }
 }

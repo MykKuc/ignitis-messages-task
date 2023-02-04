@@ -16,7 +16,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
               - column:
                   name: email
@@ -59,11 +59,11 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
               - column:
                   name: author_id
-                  type: int
+                  type: bigint
               - column:
                   name: time
                   type: timestamp
@@ -75,7 +75,7 @@ databaseChangeLog:
                   type: varchar(400)
               - column:
                   name: receiver_id
-                  type: int
+                  type: bigint
               - column:
                   name: authoractive
                   type: boolean
@@ -243,7 +243,7 @@ databaseChangeLog:
                   value: '2022-10-26'
               - column:
                   name: length
-                  value: 39
+                  value: 68
               - column:
                   name: content
                   value: Sent by user with name 'mock' to user with email person2@gmail.com.
