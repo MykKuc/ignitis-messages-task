@@ -1,4 +1,7 @@
 # Ignitis Message Application
+**Note** There exists fatal flaw. The datatypes in certain places are not compatible. 
+And parsing Long to Integer might throw exception in queries sections. I will fix that.
+
 This is an application intended for managing messages, creating, sending, receiving the messages.
 
 It was created using Spring Boot, Liquibase, JOOQ , Spring Security, JWT, Gradle
@@ -50,8 +53,6 @@ or
 
 User with ROLE_USER can write messages (POST) and receive the messages.
 
-**Note** - Password encoding. Passwords of mock users are not encoded, but passwords of newly created
-users will get encoded.
-
 Database Relations graph is given below:
+
 ![DB schema](/DBSchema.PNG)
