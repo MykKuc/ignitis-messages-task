@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .antMatchers("/user/create").hasRole("ADMIN")
                 .antMatchers("/statistics").hasRole("ADMIN")
                 .antMatchers("/user/delete/{id}").hasRole("ADMIN")
+                .antMatchers("/user/getusers").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/message").hasRole("USER")
                 .antMatchers("/*").permitAll();
 

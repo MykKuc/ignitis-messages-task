@@ -3,6 +3,7 @@ package com.mykolas.ignitismessagetask.message;
 
 import com.mykolas.ignitismessagetask.user.User;
 import org.jooq.Record;
+import org.jooq.Record1;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,24 +17,40 @@ public class MessageService {
 
     private final MessageQueries messageQueries;
 
-    public MessageService(MessageQueries messageQueries){
+    public MessageService(MessageQueries messageQueries) {
         this.messageQueries = messageQueries;
     }
 
     public List<Message> getAllMessages() {
-        return messageQueries.selectAllMessagesQuery();
+
+        Authentication currentUserAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = currentUserAuthentication.getName();
+        Record1<Long> recordOfidOfCurrentUser = messageQueries.fetchRecordOfIdOfCurrentlyLoggedinUserByEmail(currentEmail);
+
+        if (Objects.isNull(recordOfidOfCurrentUser)) {
+            throw new UserNotLoggedInException();
+        }
+
+        Long idOfCurrentlyLoggedInUser = recordOfidOfCurrentUser.value1();
+
+        List<Message> allMessagesByCurrentlyLoggedInUser = messageQueries.fetchAllMessagesWhereCurrentUserIsEitherMessageAuthorOrMessageReceiver(idOfCurrentlyLoggedInUser);
+        if (allMessagesByCurrentlyLoggedInUser.isEmpty()){
+            throw new CurrentUserHasNoAssociatedMessagesWithItException();
+        }
+
+        return allMessagesByCurrentlyLoggedInUser;
     }
 
     public void createMessage(NewMessageRequest newMessageRequest) {
 
         Record presentReceiverRecord = messageQueries.fetchUserById(newMessageRequest.getReceiverId());
-        if(Objects.isNull(presentReceiverRecord)){
+        if (Objects.isNull(presentReceiverRecord)) {
             throw new MessageReceiverNotExistException(newMessageRequest.getReceiverId());
         }
 
         // Check if receiver is not an ADMIN.
         String presentReceiverRole = presentReceiverRecord.into(User.class).getRole();
-        if(presentReceiverRole.equals("ROLE_ADMIN")){
+        if (presentReceiverRole.equals("ROLE_ADMIN")) {
             throw new ReceiverIsAdminException();
         }
 
@@ -42,7 +59,7 @@ public class MessageService {
         User currentUser = messageQueries.fetchUserByEmail(currentUserEmail);
         Long currentUserId = currentUser.getId();
 
-        if (currentUserId == newMessageRequest.getReceiverId()){
+        if (currentUserId == newMessageRequest.getReceiverId()) {
             throw new MessageAuthorAndReceiverSameException();
         }
 

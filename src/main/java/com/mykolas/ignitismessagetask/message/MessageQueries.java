@@ -3,6 +3,7 @@ package com.mykolas.ignitismessagetask.message;
 import com.mykolas.ignitismessagetask.jooqdatabase.Tables;
 import com.mykolas.ignitismessagetask.jooqdatabase.tables.Messages;
 import com.mykolas.ignitismessagetask.jooqdatabase.tables.Users;
+import com.mykolas.ignitismessagetask.jooqdatabase.tables.records.MessagesRecord;
 import com.mykolas.ignitismessagetask.user.User;
 import org.jooq.*;
 import org.jooq.Record;
@@ -16,6 +17,21 @@ public class MessageQueries {
 
     @Autowired
     private DSLContext create;
+
+    public Record1<Long> fetchRecordOfIdOfCurrentlyLoggedinUserByEmail(String currentlyLoggedInUserEmail){
+        return create
+                .select(Users.USERS.ID)
+                .from(Tables.USERS)
+                .where(Users.USERS.EMAIL.eq(currentlyLoggedInUserEmail))
+                .fetchOne();
+    }
+
+    public List<Message> fetchAllMessagesWhereCurrentUserIsEitherMessageAuthorOrMessageReceiver(Long idOfCurrentUser){
+        return create
+                .selectFrom(Tables.MESSAGES)
+                .where(Messages.MESSAGES.AUTHOR_ID.eq(idOfCurrentUser).or(Messages.MESSAGES.RECEIVER_ID.eq(idOfCurrentUser)))
+                .fetch().into(Message.class);
+    }
 
     public List<Message> selectAllMessagesQuery() {
         Result<Record> results = create.select().from(Tables.MESSAGES).fetch();

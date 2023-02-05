@@ -20,7 +20,7 @@ public class MessageController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Message> getAllMessages() {
+    public List<Message> getAllSpecificUserMessages() {
         return messageService.getAllMessages();
     }
 
